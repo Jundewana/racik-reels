@@ -8,6 +8,14 @@ GPU hanya opsional untuk uji coba model lokal.
 
 > Spesifikasi lengkap: [CLAUDE.md](CLAUDE.md) · Arsitektur & keputusan desain: [docs/arsitektur/](docs/arsitektur/README.md)
 
+## Tampilan
+
+Racik Studio (web, `python main.py --web`):
+
+| Buat video (pilih pilar & footage) | Animasi (Remotion) | Hasil siap unggah |
+|---|---|---|
+| ![Buat video](docs/screenshots/buat-video.png) | ![Animasi](docs/screenshots/animasi.png) | ![Siap unggah](docs/screenshots/siap-unggah.png) |
+
 ## Status
 
 | Tahap | Isi | Status |
