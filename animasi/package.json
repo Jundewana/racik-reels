@@ -1,0 +1,35 @@
+{
+  "name": "racik-animasi",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Video animasi 2D flat Brand (Remotion) — kode per video ditulis Claude Code (skill racik-animasi)",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-three/fiber": "9.8.2",
+    "@react-three/postprocessing": "3.2.2",
+    "@remotion/bundler": "4.0.547",
+    "@remotion/cli": "4.0.547",
+    "@remotion/effects": "4.0.547",
+    "@remotion/fonts": "4.0.547",
+    "@remotion/media": "4.0.547",
+    "@remotion/motion-blur": "4.0.547",
+    "@remotion/renderer": "4.0.547",
+    "@remotion/three": "4.0.547",
+    "@remotion/transitions": "4.0.547",
+    "postprocessing": "6.39.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.547",
+    "three": "0.187.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.3",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.187.0",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+build/
+dist/
+
+# Rahasia
+.env
+
+# Data kerja & hasil (besar, tidak di-commit)
+work/*
+!work/.gitkeep
+output/*
+!output/.gitkeep
+footage/**/*
+!footage/**/
+!footage/**/.gitkeep
+!footage/README.md
+
+# Video & musik mentah
+*.mp4
+*.mov
+*.mkv
+*.MP4
+*.MOV
+
+# Claude Code: hanya skill proyek yang di-commit (skill pihak ketiga & setelan lokal tidak)
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/racik-sutradara/
+!.claude/skills/racik-animasi/
+
+# Editor / OS
+assets/fonts/_arsip_zip/
+
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Musik bebas royalti (assets/music/) SENGAJA ikut di-commit
+
+# Repo referensi eksternal (punya .git sendiri) — tidak ikut di-commit
+video-use/
+references/
+
+# Hasil build frontend React SENGAJA ikut di-commit (komputer lain bisa pakai UI tanpa Node.js)
+!frontend/dist/
+
+# Lagu yang lisensinya belum dicatat di assets/music/LISENSI.md — jangan di-push dulu
+assets/music/lagu_license/
+
+# Rujukan pihak ketiga (git clone, tidak di-commit; frame referensinya hanya untuk studi gaya)
+vendor/
+
+# --- Rilis publik: aset berhak cipta / identitas brand tidak ikut di-push ---
+# Musik (lisensi belum jelas untuk redistribusi) — taruh sendiri di assets/music/<mood>/
+assets/music/*/*.mp3
+assets/music/*/*.wav
+assets/music/*/*.m4a
+# Logo brand — taruh sendiri di assets/logo/
+assets/logo/*
+!assets/logo/.gitkeep
+!assets/logo/README.md
+# Hasil evaluasi lokal
+eval/results.csv
+# Token & antrean publikasi Instagram
+publish/
+.claude/settings.local.json

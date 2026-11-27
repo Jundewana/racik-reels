@@ -1,0 +1,297 @@
+{
+ "racik-flat": {
+  "nama": "Stiker Flat",
+  "deskripsi": "Blok warna brand, garis tinta tebal, bayangan keras ala stiker, gerak memantul.",
+  "warna": {
+   "hijau": "#00953F",
+   "ungu": "#2B176E",
+   "merah": "#D9261C",
+   "tinta": "#0B0B0C",
+   "putih": "#FFFFFF",
+   "krem": "#FFF3DC",
+   "kuning": "#FFC93C",
+   "langit": "#8ED8F8",
+   "abu": "#3A3A40",
+   "kulit": "#F2C29B",
+   "hijauMuda": "#3DBE6E",
+   "unguMuda": "#6E5BC4"
+  },
+  "langit": [
+   "#8ED8F8",
+   "#D8F3FF"
+  ],
+  "garis": 1.0,
+  "bayangan": "keras",
+  "sudut": 1.0,
+  "font": {
+   "judul": "Montserrat/Montserrat-ExtraBold.ttf",
+   "isi": "Montserrat/Montserrat-SemiBold.ttf"
+  },
+  "huruf": {
+   "besar": true,
+   "jarak": -1,
+   "berat": 800
+  },
+  "teks": "garis",
+  "tekstur": "none",
+  "transisi": "pita",
+  "gerak": {
+   "kaku": 180,
+   "redam": 11,
+   "fps": 0
+  }
+ },
+ "garis-tipis": {
+  "nama": "Garis Tipis",
+  "deskripsi": "Line-art tenang: garis navy tipis, tanpa bayangan, warna lembut, gerak halus tanpa pantulan.",
+  "warna": {
+   "hijau": "#2E9E6A",
+   "ungu": "#4B45C6",
+   "merah": "#E0574B",
+   "tinta": "#1E2A46",
+   "putih": "#FFFFFF",
+   "krem": "#EEF3F6",
+   "kuning": "#F2B83B",
+   "langit": "#CFE6F2",
+   "abu": "#5B6478",
+   "kulit": "#F4CDAF",
+   "hijauMuda": "#9AD3B2",
+   "unguMuda": "#B9B5EE"
+  },
+  "langit": [
+   "#DCEEF7",
+   "#F6FAFC"
+  ],
+  "garis": 0.45,
+  "bayangan": "none",
+  "sudut": 1.6,
+  "font": {
+   "judul": "Satoshi/Satoshi-Black.otf",
+   "isi": "Satoshi/Satoshi-Bold.otf"
+  },
+  "huruf": {
+   "besar": false,
+   "jarak": -2,
+   "berat": 900
+  },
+  "teks": "polos",
+  "tekstur": "none",
+  "transisi": "garis",
+  "gerak": {
+   "kaku": 120,
+   "redam": 20,
+   "fps": 0
+  }
+ },
+ "kertas": {
+  "nama": "Potongan Kertas",
+  "deskripsi": "Kertas kraft bertekstur, potongan tanpa garis tepi, bayangan lembut, gerak patah-patah ala stop-motion.",
+  "warna": {
+   "hijau": "#5E8C4A",
+   "ungu": "#5C4580",
+   "merah": "#C8553D",
+   "tinta": "#3B2F2A",
+   "putih": "#FBF6EC",
+   "krem": "#E6D6B8",
+   "kuning": "#E8B04B",
+   "langit": "#A9CBD6",
+   "abu": "#6E6259",
+   "kulit": "#E9B98F",
+   "hijauMuda": "#8DB36E",
+   "unguMuda": "#9A84B8"
+  },
+  "langit": [
+   "#A9CBD6",
+   "#E9E0CB"
+  ],
+  "garis": 0.35,
+  "bayangan": "lembut",
+  "sudut": 0.35,
+  "font": {
+   "judul": "Bebas_Neue/BebasNeue-Regular.ttf",
+   "isi": "Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf"
+  },
+  "huruf": {
+   "besar": true,
+   "jarak": 2,
+   "berat": 400
+  },
+  "teks": "bayang",
+  "tekstur": "kertas",
+  "transisi": "sobek",
+  "gerak": {
+   "kaku": 160,
+   "redam": 14,
+   "fps": 12
+  }
+ },
+ "neon-malam": {
+  "nama": "Neon Malam",
+  "deskripsi": "Latar malam gelap, garis berpendar, teks bercahaya, scanline halus, transisi kilat.",
+  "warna": {
+   "hijau": "#2EF29A",
+   "ungu": "#8B6CFF",
+   "merah": "#FF4D6D",
+   "tinta": "#F2EEFF",
+   "putih": "#1B1640",
+   "krem": "#0D0B24",
+   "kuning": "#FFE14D",
+   "langit": "#22205A",
+   "abu": "#3B3670",
+   "kulit": "#F2C29B",
+   "hijauMuda": "#1F9E6B",
+   "unguMuda": "#4A3B9E"
+  },
+  "langit": [
+   "#0D0B24",
+   "#2A1F63"
+  ],
+  "garis": 0.6,
+  "bayangan": "pendar",
+  "sudut": 1.2,
+  "font": {
+   "judul": "ClashDisplay/ClashDisplay-Bold.otf",
+   "isi": "Inter/static/Inter_18pt-SemiBold.ttf"
+  },
+  "huruf": {
+   "besar": true,
+   "jarak": 1,
+   "berat": 700
+  },
+  "teks": "pendar",
+  "tekstur": "scanline",
+  "transisi": "kilat",
+  "gerak": {
+   "kaku": 240,
+   "redam": 15,
+   "fps": 0
+  }
+ },
+ "tipografi-tebal": {
+  "nama": "Tipografi Tebal",
+  "deskripsi": "Huruf raksasa jadi tokoh utama: Anton padat, blok warna tegas, tanpa garis & pantulan, potongan tajam.",
+  "warna": {
+   "hijau": "#00953F",
+   "ungu": "#1D1052",
+   "merah": "#E3261B",
+   "tinta": "#101010",
+   "putih": "#FFFFFF",
+   "krem": "#F1EFE8",
+   "kuning": "#FFD400",
+   "langit": "#BFE3F2",
+   "abu": "#2E2E33",
+   "kulit": "#F0C39F",
+   "hijauMuda": "#40B86A",
+   "unguMuda": "#5A4BB0"
+  },
+  "langit": [
+   "#BFE3F2",
+   "#F1EFE8"
+  ],
+  "garis": 0.3,
+  "bayangan": "none",
+  "sudut": 0.0,
+  "font": {
+   "judul": "Anton/Anton-Regular.ttf",
+   "isi": "Inter/static/Inter_18pt-Bold.ttf"
+  },
+  "huruf": {
+   "besar": true,
+   "jarak": 0,
+   "berat": 400,
+   "skala": 1.18
+  },
+  "teks": "polos",
+  "tekstur": "none",
+  "transisi": "blok",
+  "gerak": {
+   "kaku": 320,
+   "redam": 32,
+   "fps": 0
+  }
+ },
+ "pastel-ceria": {
+  "nama": "Pastel Ceria",
+  "deskripsi": "Pastel bertumpuk, gumpalan bulat besar mengambang, huruf bulat tebal, gerak mantul elastis (arah gaya bang-motion).",
+  "warna": {
+   "hijau": "#7FD8A6",
+   "ungu": "#B9A7F5",
+   "merah": "#FF9AA8",
+   "tinta": "#3B2E5A",
+   "putih": "#FFFFFF",
+   "krem": "#FFF4EC",
+   "kuning": "#FFD86B",
+   "langit": "#BDE6FF",
+   "abu": "#8C86A3",
+   "kulit": "#F6CFB2",
+   "hijauMuda": "#BDEFD3",
+   "unguMuda": "#DCD2FB"
+  },
+  "langit": [
+   "#CDEBFF",
+   "#FFF4EC"
+  ],
+  "garis": 0.5,
+  "bayangan": "lembut",
+  "sudut": 2.0,
+  "font": {
+   "judul": "Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBold.ttf",
+   "isi": "Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf"
+  },
+  "huruf": {
+   "besar": false,
+   "jarak": -1,
+   "berat": 800
+  },
+  "teks": "polos",
+  "tekstur": "none",
+  "transisi": "garis",
+  "gerak": {
+   "kaku": 200,
+   "redam": 8,
+   "fps": 0
+  }
+ },
+ "grainy-gradient": {
+  "nama": "Grainy Gradient",
+  "deskripsi": "Dasar gelap dalam, gumpalan gradien jenuh yang bercahaya, butiran film halus, teks putih bersih (arah gaya bang-motion).",
+  "warna": {
+   "hijau": "#24E08A",
+   "ungu": "#7A4DFF",
+   "merah": "#FF4F7B",
+   "tinta": "#F4F2FF",
+   "putih": "#15112B",
+   "krem": "#0B0920",
+   "kuning": "#FFC94D",
+   "langit": "#1E1A4A",
+   "abu": "#3A3560",
+   "kulit": "#F2C29B",
+   "hijauMuda": "#1C8F63",
+   "unguMuda": "#3F2C99"
+  },
+  "langit": [
+   "#0B0920",
+   "#2B1C66"
+  ],
+  "garis": 0.0,
+  "bayangan": "none",
+  "sudut": 1.4,
+  "font": {
+   "judul": "Satoshi/Satoshi-Black.otf",
+   "isi": "Satoshi/Satoshi-Bold.otf"
+  },
+  "huruf": {
+   "besar": false,
+   "jarak": -2,
+   "berat": 700
+  },
+  "teks": "bersih",
+  "tekstur": "grain",
+  "transisi": "kilat",
+  "gerak": {
+   "kaku": 140,
+   "redam": 18,
+   "fps": 0
+  }
+ }
+}

@@ -1,0 +1,105 @@
+%% Arsitektur Racik (AutoReels) — Contoh Brand
+%% Buka di draw.io: Arrange > Insert > Advanced > Mermaid, atau di https://mermaid.live
+%% Garis putus-putus = opsional / belum dibuat (rencana). Keputusan & risiko: README.md dan adr/
+flowchart TB
+    classDef ui fill:#E8E4F6,stroke:#2B176E,color:#1C1433
+    classDef srv fill:#FFFFFF,stroke:#2B176E,color:#1C1433
+    classDef step fill:#FFFFFF,stroke:#2B176E,stroke-width:2px,color:#1C1433
+    classDef plan fill:#FFFFFF,stroke:#8A84A3,stroke-dasharray:5 4,color:#615A78
+    classDef ext fill:#FFF4CC,stroke:#B38900,color:#1C1433
+    classDef data fill:#F2F1F6,stroke:#615A78,color:#1C1433
+    classDef out fill:#E3F4EA,stroke:#00843A,color:#1C1433
+
+    subgraph UI["Antarmuka pengguna"]
+        WEB["Racik Studio (web)<br/>React + Vite + Tailwind<br/>frontend/"]
+        HP["Browser HP<br/>Wi-Fi + PIN (--hp)"]
+        CLI["CLI autoreels<br/>cli.py (typer)"]
+        MENU["Menu terminal<br/>main.py"]
+    end
+
+    subgraph BE["Backend lokal (127.0.0.1)"]
+        SRV["server.py (FastAPI)<br/>REST API: pilih klip & mesin AI (api/local),<br/>penyaji frontend/dist, preview footage & hasil"]
+        RUN["JobRunner<br/>antrean di memori, 1 worker<br/>progress.json + log.txt per job"]
+        IMP["importer.py<br/>Impor video jadi (video-use):<br/>normalisasi, logo, CTA, caption AI"]
+        RR["Render ulang<br/>dari edl.json / voice over<br/>(tanpa Director)"]
+    end
+
+    subgraph PIPE["pipeline.py — LLM memutuskan, FFmpeg mengeksekusi"]
+        direction LR
+        S1["[1] Ingest<br/>ingest.py<br/>proxy 480p, metadata"]
+        S2["[2] Analyze<br/>analyze/*<br/>adegan, kualitas, subjek, beat"]
+        S3["[3] Describe<br/>describe.py<br/>vision LLM per adegan"]
+        S4["[4] Director<br/>director.py<br/>susun EDL (JSON)"]
+        S5["[5] Validate<br/>validate.py<br/>aturan keras + perbaikan"]
+        S6["[6] Critic<br/>critic.py<br/>(Tahap 4, rencana)"]
+        S7["[7] Render<br/>render/*<br/>potong, reframe, teks .ass,<br/>logo, musik, voice over"]
+        S8["Checklist<br/>checklist.py<br/>Siap Unggah"]
+        S1 --> S2 --> S3 --> S4 --> S5
+        S5 -.-> S6
+        S5 --> S7
+        S6 -.-> S7
+        S7 --> S8
+        S5 -- "error: revisi (maks 2x)" --> S4
+    end
+
+    subgraph EXT["Layanan & alat"]
+        LLM["LLM API via litellm<br/>Gemini (vision), Groq gpt-oss-120b (teks)"]
+        OLL["Ollama lokal (opsional, uji coba)<br/>qwen3:4b, qwen3-vl:4b-instruct"]
+        TTS["Gemini TTS<br/>suara AI voice over"]
+        FF["FFmpeg + libass<br/>render, loudnorm, xfade"]
+        CV["Pustaka CPU<br/>PySceneDetect, OpenCV,<br/>MediaPipe, librosa"]
+    end
+
+    subgraph DATA["Data & konfigurasi (file lokal)"]
+        D1[("footage/<br/>video mentah per pilar")]
+        D2[("work/<br/>cache LLM, analisis, file antara")]
+        D3[("config/ + prompts/ + trends/<br/>brand, pilar, hook, style, brief tren")]
+        D4[("assets/<br/>musik per mood, font, logo")]
+        D5[("output/&lt;job&gt;/<br/>reel.mp4, cover.jpg, edl.json,<br/>caption.txt, report.md")]
+    end
+
+    subgraph PUB["Tahap 6 (rencana)"]
+        P1["publish/<br/>antrean, persetujuan manusia,<br/>jadwal (Task Scheduler)"]
+        IG["Instagram Graph API<br/>(resmi, akun decoy lalu produksi)"]
+    end
+
+    WEB --> SRV
+    HP -- "LAN + PIN" --> SRV
+    MENU --> CLI
+    CLI -- "run / import / render<br/>(di luar antrean, risiko R3)" --> PIPE
+    SRV -- "POST /api/jobs" --> RUN
+    RUN --> S1
+    SRV -- "POST /api/import" --> RUN
+    RUN --> IMP
+    SRV -- "POST /api/jobs/{id}/rerender" --> RUN
+    RUN --> RR
+    D1 -. "/media/footage (preview)" .-> SRV
+    RR --> S7
+
+    S2 --> CV
+    S3 -- "vision" --> LLM
+    S4 -- "teks" --> LLM
+    S3 -. "mesin local" .-> OLL
+    S4 -. "mesin local" .-> OLL
+    IMP -- "caption" --> LLM
+    S7 -- "voice over AI" --> TTS
+    S7 --> FF
+    IMP --> FF
+
+    D1 --> S1
+    S2 --> D2
+    D3 --> S4
+    D4 --> S7
+    S8 --> D5
+    IMP --> D5
+
+    D5 -.-> P1
+    P1 -.-> IG
+
+    class WEB,HP,CLI,MENU ui
+    class SRV,RUN,IMP,RR srv
+    class S1,S2,S3,S4,S5,S7,S8 step
+    class S6,P1,IG plan
+    class LLM,OLL,TTS,FF,CV ext
+    class D1,D2,D3,D4 data
+    class D5 out

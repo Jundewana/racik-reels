@@ -1,0 +1,5 @@
+node_modules/
+# diisi `autoreels animasi prepare` (rekaman, musik, font, logo) — tidak di-commit
+public/*
+!public/.gitkeep
+out/

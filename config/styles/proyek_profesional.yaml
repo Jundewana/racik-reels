@@ -1,0 +1,17 @@
+# Before-after, speed-up, transisi bersih, teks rapi.
+name: proyek_profesional
+description: "Profesional untuk portofolio konstruksi"
+cut_pace_sec: [1.2, 2.5]
+transitions: [cut, fade, slide_left]
+text_style: rapi_box
+font: Montserrat/Montserrat-SemiBold.ttf
+colors: { text: "#FFFFFF", box: "#1F2A44", highlight: "#FFC400", emphasis: "#3DDC84" }
+zoom_punch_on_emphasis: false
+default_speed_progress: 6.0
+color_grade: clean            # punchy | warm | clean | none (render/cut.py GRADES)
+color_match: 0.6             # seragamkan warna antar klip sebelum look (0 = mati; render/color.py)
+sfx_db: -10                   # efek suara transisi (whoosh/thump/pop), dB; null = tanpa (render/sfx.py)
+stabilize: true             # adegan goyang distabilkan (vidstab); false = mati
+music_mood_default: inspiratif
+original_audio_db: mute
+speed_range: [1.0, 8.0]

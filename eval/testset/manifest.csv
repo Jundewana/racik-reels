@@ -1,0 +1,8 @@
+set_id,pillar,folder,style,durasi,brief,narasi,bicara,tujuan,jumlah_klip,ada_ucapan,catatan
+rental-energik,rental,footage/rental,rental_energik,20,Promo sewa motor untuk wisatawan libur akhir tahun,,,,10,tidak,montase b-roll ikut beat (Tahap 1)
+rental-sinematik,rental,footage/rental,wisata_sinematik,25,Ajak wisatawan keliling Garut naik motor dengan suasana santai,,,,10,tidak,klip sama dengan gaya berbeda (Tahap 2)
+konstruksi-ba,konstruksi,footage/konstruksi,proyek_profesional,25,Tampilkan progres proyek renovasi dari awal sampai selesai,,,,10,tidak,before-after + speed-up (Tahap 2)
+narasi-rental,rental,footage/rental,rental_energik,20,Promo sewa motor untuk wisatawan yang liburan ke Garut,footage/_uji/voice_contoh.m4a,,,10,narasi,alur narasi dulu (rekaman pemilik)
+narasi-konstruksi,konstruksi,footage/konstruksi,proyek_profesional,25,Promosi jasa bangun dan renovasi rumah dengan konsultasi gratis,footage/_uji/voice_contoh2.m4a,,,10,narasi,alur narasi dulu (rekaman pemilik)
+bicara-kuliah,umum,footage/umum/cuplikan-persenyawaan.mp4,klip_informatif,40,Potongan kuliah umum Anies Baswedan tentang Indonesia sebagai persenyawaan,,footage/umum/cuplikan-persenyawaan.mp4,,1,ya,video bicara (Tahap 3); konten pihak ketiga — uji saja
+bicara-podcast,umum,footage/umum/cuplikan-tips-youtuber.mp4,klip_informatif,40,Potongan podcast Raditya Dika tentang tips jadi YouTuber gaming,,footage/umum/cuplikan-tips-youtuber.mp4,,1,ya,video bicara 2–3 orang (Tahap 3); konten pihak ketiga — uji saja

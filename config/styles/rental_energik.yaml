@@ -1,0 +1,16 @@
+# Potongan cepat ikut beat, zoom-punch, teks tebal.
+name: rental_energik
+description: "Energik untuk promo rental motor"
+cut_pace_sec: [0.6, 1.2]
+transitions: [cut, zoom_punch, whip]
+text_style: bold_putih_outline
+font: Montserrat/Montserrat-ExtraBold.ttf
+colors: { text: "#FFFFFF", outline: "#000000", highlight: "#FFC400", emphasis: "#3DDC84" }
+zoom_punch_on_emphasis: true
+color_grade: punchy            # punchy | warm | clean | none (render/cut.py GRADES)
+color_match: 0.6             # seragamkan warna antar klip sebelum look (0 = mati; render/color.py)
+sfx_db: -4                    # efek suara transisi (whoosh/thump/pop), dB; null = tanpa (render/sfx.py)
+stabilize: true             # adegan goyang distabilkan (vidstab); false = mati
+music_mood_default: upbeat
+original_audio_db: mute
+speed_range: [1.0, 1.5]

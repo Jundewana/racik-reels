@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="id" x-data="autoReelsApp()" :class="{ 'dark': darkMode }">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoReels Studio — Contoh Brand</title>
+
+  <!-- Google Fonts: Montserrat & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            display: ['"Montserrat"', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              green: '#00953F',
+              greenDark: '#007A33',
+              purple: '#2B176E',
+              purpleDeep: '#1B0E47',
+              purpleCard: '#24135C',
+              red: '#D9261C',
+              yellow: '#FFC400'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Lucide Icons 0.460.0 -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+
+  <!-- Alpine.js 3.14.1 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <script src="./app.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-brand-purpleDeep dark:text-slate-100 font-sans antialiased selection:bg-brand-yellow selection:text-brand-purple transition-colors duration-150">
+
+  <div class="min-h-screen flex flex-col lg:flex-row">
+    <!-- ==================== SIDEBAR DESKTOP ==================== -->
+    <aside class="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 bg-brand-purple text-white shadow-xl z-30">
+      <!-- Brand Header -->
+      <div class="px-6 py-6 border-b border-white/10 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-brand-green flex items-center justify-center shadow-md shrink-0">
+          <i data-lucide="clapperboard" class="w-5 h-5 text-white"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="font-display font-extrabold text-lg tracking-tight leading-tight flex items-center gap-1.5">
+            <span>AutoReels</span>
+            <span class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-brand-yellow text-brand-purple">Studio</span>
+          </div>
+          <p class="text-[11px] text-purple-200/80 truncate">Contoh Brand</p>
+        </div>
+      </div>
+
+      <!-- Menu Navigasi -->
+      <nav class="flex-1 px-3 py-5 space-y-1.5 overflow-y-auto" aria-label="Navigasi Utama">
+        <template x-for="item in navItems" :key="item.id">
+          <button
+            type="button"
+            @click="navigateTo(item.id)"
+            :class="currentPage === item.id
+              ? 'bg-brand-green text-white font-semibold shadow-md shadow-black/20'
+              : 'text-purple-100/80 hover:bg-white/10 hover:text-white font-medium'"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition duration-150 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow"
+          >
+            <i :data-lucide="item.icon" class="w-4 h-4 shrink-0"></i>
+            <span x-text="item.label"></span>
+          </button>
+        </template>
+      </nav>
+
+      <!-- Footer Sidebar: Mode Mock Badge & Dark Mode Toggle -->
+      <div class="p-4 border-t border-white/10 space-y-3">
+        <div x-show="isMockMode" class="px-3 py-2 rounded-xl bg-brand-yellow/15 border border-brand-yellow/40 text-brand-yellow text-xs flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brand-yellow animate-pulse shrink-0"></span>
+          <span>Mode Simulasi (MOCK)</span>
+        </div>
+
+        <button
+          type="button"
+          @click="toggleDarkMode()"
+          class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-medium text-purple-100 transition duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow"
+        >
+          <span class="flex items-center gap-2">
+            <!-- dua ikon statis + x-show: lucide mengganti <i> jadi <svg> sekali, jadi ikon dinamis tidak berganti -->
+            <span x-show="darkMode"><i data-lucide="sun" class="w-4 h-4 text-brand-yellow"></i></span>
+            <span x-show="!darkMode"><i data-lucide="moon" class="w-4 h-4 text-brand-yellow"></i></span>
+            <span x-text="darkMode ? 'Mode Terang' : 'Mode Gelap'"></span>
+          </span>
+          <span class="text-[10px] uppercase tracking-wider opacity-75" x-text="darkMode ? 'ON' : 'OFF'"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==================== HEADER MOBILE ==================== -->
+    <header class="lg:hidden sticky top-0 z-30 bg-brand-purple text-white px-4 py-3 flex items-center justify-between shadow-md">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-brand-green flex items-center justify-center">
+          <i data-lucide="clapperboard" class="w-4 h-4 text-white"></i>
+        </div>
+        <div>
+          <span class="font-display font-extrabold text-base tracking-tight">AutoReels Studio</span>
+          <span x-show="isMockMode" class="ml-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-brand-yellow text-brand-purple">MOCK</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        @click="toggleDarkMode()"
+        aria-label="Ubah tema terang atau gelap"
+        class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-brand-yellow transition"
+      >
+        <span x-show="darkMode"><i data-lucide="sun" class="w-4 h-4"></i></span>
+        <span x-show="!darkMode"><i data-lucide="moon" class="w-4 h-4"></i></span>
+      </button>
+    </header>
+
+    <!-- ==================== KONTEN UTAMA ==================== -->
+    <main class="flex-1 lg:pl-64 pb-24 lg:pb-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+
+        <!-- ============================================================ -->
+        <!-- HALAMAN 1: BUAT REEL (WIZARD 4 LANGKAH)                      -->
+        <!-- ============================================================ -->
+        <section x-show="currentPage === 'create'" x-transition.opacity.duration.150ms class="space-y-6">
+          <!-- Judul & Stepper -->
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
+                Buat Instagram Reel
+              </h1>
+              <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1">
+                Ubah video mentah menjadi Reels siap unggah otomatis mengikuti beat musik.
+              </p>
+            </div>
+
+            <!-- 4-Step Stepper -->
+            <ol class="flex items-center gap-1.5 sm:gap-2 bg-white dark:bg-brand-purpleCard p-1.5 rounded-2xl shadow-sm border border-slate-200/80 dark:border-purple-800/60" aria-label="Tahapan pembuatan Reel">
+              <template x-for="st in wizardSteps" :key="st.num">
+                <li>
+                  <button
+                    type="button"
+                    @click="goToWizardStep(st.num)"
+                    :disabled="!canJumpToStep(st.num)"
+                    :class="{
+                      'bg-brand-green text-white font-bold shadow-sm': wizardStep === st.num,
+                      'bg-brand-green/15 text-brand-green dark:text-emerald-300 font-semibold': wizardStep > st.num,
+                      'text-slate-400 dark:text-purple-300/50 cursor-not-allowed': !canJumpToStep(st.num) && wizardStep !== st.num,
+                      'text-slate-600 dark:text-purple-200 hover:bg-slate-100 dark:hover:bg-white/5': canJumpToStep(st.num) && wizardStep < st.num
+                    }"
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm transition duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow"
+                  >
+                    <span
+                      class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold"
+                      :class="wizardStep === st.num ? 'bg-white text-brand-green' : (wizardStep > st.num ? 'bg-brand-green text-white' : 'bg-slate-200 dark:bg-white/10')"
+                      x-text="wizardStep > st.num ? '✓' : st.num"
+                    ></span>
+                    <span x-text="st.label"></span>
+                  </button>
+                </li>
+              </template>
+            </ol>
+          </div>
+
+          <!-- ==================== LANGKAH 1: FOOTAGE ==================== -->
+          <div x-show="wizardStep === 1" x-transition.opacity.duration.150ms class="space-y-6">
+            <!-- Pilih Pilar Konten -->
+            <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+                  1. Pilih Pilar Konten
+                </h2>
+                <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-brand-yellow/25 text-brand-purple dark:text-brand-yellow">
+                  Prioritas: Rental Motor
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                <template x-for="p in options.pillars" :key="p.id">
+                  <button
+                    type="button"
+                    @click="selectPillar(p.id)"
+                    :class="form.pillar === p.id
+                      ? 'border-brand-green bg-brand-green/10 dark:bg-brand-green/20 ring-2 ring-brand-green/30'
+                      : 'border-slate-200 dark:border-purple-800/70 hover:border-brand-green/60 bg-slate-50/70 dark:bg-white/5'"
+                    class="p-4 rounded-2xl border-2 text-left transition duration-150 flex flex-col justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow"
+                  >
+                    <div class="flex items-center justify-between">
+                      <div
+                        :class="form.pillar === p.id ? 'bg-brand-green text-white' : 'bg-white dark:bg-brand-purple text-brand-purple dark:text-purple-200 shadow-xs'"
+                        class="w-11 h-11 rounded-2xl flex items-center justify-center transition"
+                      >
+                        <i :data-lucide="pillarIcon(p.id)" class="w-5 h-5"></i>
+                      </div>
+                      <span
+                        x-show="p.id === 'rental'"
+                        class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-brand-yellow text-brand-purple"
+                      >Utama</span>
+                    </div>
+                    <div>
+                      <div class="font-display font-bold text-base text-slate-900 dark:text-white" x-text="p.label"></div>
+                      <p class="text-xs text-slate-500 dark:text-purple-200/70 line-clamp-2 mt-0.5" x-text="p.default_brief"></p>
+                    </div>
+                  </button>
+                </template>
+              </div>
+            </div>
+
+            <!-- Sumber Footage: Unggah atau Folder yang Ada -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Kolom Kiri: Unggah & Pilih Folder -->
+              <div class="lg:col-span-5 space-y-5">
+                <!-- Dropzone Unggah Video -->
+                <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+                  <h3 class="font-display font-bold text-base text-slate-900 dark:text-white mb-1">
+                    Unggah Video Mentah
+                  </h3>
+                  <p class="text-xs text-slate-500 dark:text-purple-200/75 mb-4">
+                    Format didukung: <span class="font-semibold">.mp4</span> atau <span class="font-semibold">.mov</span> (bisa pilih banyak file sekaligus).
+                  </p>
+
+                  <label
+                    for="footage-file-input"
+                    @dragover.prevent="isDragging = true"
+                    @dragleave.prevent="isDragging = false"
+                    @drop.prevent="handleFileDrop($event)"
+                    :class="isDragging
+                      ? 'border-brand-green bg-brand-green/10 scale-[1.01]'
+                      : 'border-slate-300 dark:border-purple-700 hover:border-brand-green bg-slate-50 dark:bg-white/5'"
+                    class="flex flex-col items-center justify-center text-center p-6 rounded-2xl border-2 border-dashed cursor-pointer transition duration-150"
+                  >
+                    <div class="w-12 h-12 rounded-2xl bg-brand-green/15 text-brand-green flex items-center justify-center mb-3">
+                      <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-slate-800 dark:text-white">
+                      Tarik video ke sini, atau klik untuk memilih
+                    </span>
+                    <span class="text-xs text-slate-400 dark:text-purple-300/70 mt-1">
+                      Otomatis masuk ke folder pilar <strong x-text="getPillarLabel(form.pillar)"></strong>
+                    </span>
+                    <input
+                      id="footage-file-input"
+                      type="file"
+                      accept=".mp4,.mov,video/mp4,video/quicktime"
+                      multiple
+                      class="sr-only"
+                      @change="handleFileSelect($event)"
+                    />
+                  </label>
+
+                  <!-- Progress Unggah per File -->
+                  <div x-show="uploadQueue.length > 0" class="mt-4 space-y-2.5">
+                    <template x-for="u in uploadQueue" :key="u.id">
+                      <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/70 dark:border-purple-800/50">
+                        <div class="flex items-center justify-between text-xs mb-1.5">
+                          <span class="font-medium truncate max-w-[70%]" x-text="u.name"></span>
+                          <span
+                            :class="u.status === 'done' ? 'text-brand-green font-bold' : 'text-slate-500 dark:text-purple-200'"
+                            x-text="u.status === 'done' ? 'Selesai ✓' : u.progress + '%'"
+                          ></span>
+                        </div>
+                        <div class="w-full h-1.5 rounded-full bg-slate-200 dark:bg-purple-900 overflow-hidden">
+                          <div
+                            class="h-full bg-brand-green transition-all duration-150"
+                            :style="`width: ${u.progress}%`"
+                          ></div>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+
+                <!-- Dropdown Folder yang Sudah Ada -->
+                <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+                  <label for="folder-select" class="block font-display font-bold text-base text-slate-900 dark:text-white mb-1">
+                    Atau Pakai Folder yang Ada
+                  </label>
+                  <p class="text-xs text-slate-500 dark:text-purple-200/75 mb-3">
+                    Pilih folder footage tersimpan di komputer/server.
+                  </p>
+                  <select
+                    id="folder-select"
+                    x-model="form.input_path"
+                    @change="loadFootage(form.input_path)"
+                    class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2.5 text-sm font-medium text-slate-800 dark:text-white focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                  >
+                    <template x-for="f in options.footage_folders" :key="f.path">
+                      <option :value="f.path" x-text="`${f.path} (${f.count} video)`"></option>
+                    </template>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Kolom Kanan: Grid Thumbnail Klip -->
+              <div class="lg:col-span-7 bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <div>
+                      <h3 class="font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+                        Daftar Klip Video
+                      </h3>
+                      <p class="text-xs text-slate-500 dark:text-purple-200/75">
+                        Folder: <code class="font-mono text-brand-purple dark:text-brand-yellow" x-text="form.input_path"></code>
+                      </p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-purple-100" x-text="`${clips.length} klip siap`"></span>
+                  </div>
+
+                  <!-- Loading State -->
+                  <div x-show="loadingClips" class="py-12 text-center text-sm text-slate-500 dark:text-purple-200">
+                    Memuat daftar klip video…
+                  </div>
+
+                  <!-- Empty State (0 Klip) -->
+                  <div x-show="!loadingClips && clips.length === 0" class="py-10 px-4 text-center rounded-2xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-300 dark:border-purple-700">
+                    <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-purple-400/50 mb-3" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                      <rect x="8" y="14" width="48" height="36" rx="6" stroke="currentColor" stroke-width="3" />
+                      <path d="M27 25L39 32L27 39V25Z" fill="currentColor" />
+                    </svg>
+                    <p class="font-display font-bold text-base text-slate-800 dark:text-white">
+                      Folder ini belum berisi klip video
+                    </p>
+                    <p class="text-xs text-slate-500 dark:text-purple-200/75 mt-1 mb-4">
+                      Yuk unggah video mentah dulu agar AI bisa memilih adegan terbaik!
+                    </p>
+                    <label
+                      for="footage-file-input"
+                      class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-xs font-bold cursor-pointer transition"
+                    >
+                      <i data-lucide="upload" class="w-4 h-4"></i>
+                      <span>Unggah Video Sekarang</span>
+                    </label>
+                  </div>
+
+                  <!-- Grid Klip -->
+                  <div x-show="!loadingClips && clips.length > 0" class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[420px] overflow-y-auto pr-1 custom-scrollbar">
+                    <template x-for="clip in clips" :key="clip.name">
+                      <div class="group rounded-xl overflow-hidden border border-slate-200/90 dark:border-purple-800/70 bg-slate-900 text-white shadow-xs">
+                        <div class="aspect-video relative bg-gradient-to-br from-brand-purple to-slate-900 flex items-center justify-center overflow-hidden">
+                          <img
+                            x-show="clip.thumb_url"
+                            :src="clip.thumb_url"
+                            :alt="clip.name"
+                            @error="$event.target.style.display='none'"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-200"
+                          />
+                          <i data-lucide="film" class="w-7 h-7 text-white/40"></i>
+                          <span class="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded bg-black/75 text-[10px] font-mono font-semibold" x-text="clip.duration.toFixed(1) + ' dtk'"></span>
+                          <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/65 text-[10px] font-mono text-slate-200" x-text="`${clip.width}×${clip.height}`"></span>
+                        </div>
+                        <div class="p-2.5 bg-white dark:bg-brand-purpleDeep text-slate-800 dark:text-purple-100">
+                          <p class="text-xs font-semibold truncate" :title="clip.name" x-text="clip.name"></p>
+                          <p class="text-[11px] text-slate-400 dark:text-purple-300/70 mt-0.5" x-text="`${clip.size_mb} MB`"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+
+                <!-- Tombol Lanjut ke Langkah 2 -->
+                <div class="pt-5 mt-5 border-t border-slate-100 dark:border-purple-800/60 flex items-center justify-between">
+                  <span class="text-xs text-slate-500 dark:text-purple-200/75">
+                    Minimal 1 video siap diproses.
+                  </span>
+                  <button
+                    type="button"
+                    @click="wizardStep = 2"
+                    :disabled="clips.length === 0"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-green hover:bg-brand-greenDark disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-bold shadow-sm transition duration-150"
+                  >
+                    <span>Lanjut: Atur Video</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== LANGKAH 2: ATUR ==================== -->
+          <div x-show="wizardStep === 2" x-transition.opacity.duration.150ms class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Form Kiri (7 kolom) -->
+            <div class="lg:col-span-7 space-y-5">
+              <!-- Instruksi / Brief -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+                <label for="brief-input" class="block font-display font-bold text-base text-slate-900 dark:text-white mb-1">
+                  Instruksi Konten (Brief)
+                </label>
+                <p class="text-xs text-slate-500 dark:text-purple-200/75 mb-3">
+                  Ceritakan pesan utama video agar AI memilih adegan dan menyusun alur yang pas.
+                </p>
+                <textarea
+                  id="brief-input"
+                  rows="3"
+                  x-model="form.brief"
+                  placeholder="Mis. Promo sewa motor untuk wisatawan yang mau keliling Garut"
+                  class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2.5 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                ></textarea>
+              </div>
+
+              <!-- Pilihan Style Preset -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+                <h3 class="font-display font-bold text-base text-slate-900 dark:text-white mb-1">
+                  Gaya Editing (Style)
+                </h3>
+                <p class="text-xs text-slate-500 dark:text-purple-200/75 mb-3.5">
+                  Menentukan tempo potongan klip dan suasana musik bawaan.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <template x-for="st in options.styles" :key="st.id">
+                    <button
+                      type="button"
+                      @click="form.style = st.id"
+                      :class="form.style === st.id
+                        ? 'border-brand-green bg-brand-green/10 dark:bg-brand-green/20 ring-2 ring-brand-green/30'
+                        : 'border-slate-200 dark:border-purple-800/70 hover:border-brand-green/60 bg-slate-50/70 dark:bg-white/5'"
+                      class="p-4 rounded-2xl border-2 text-left transition duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow"
+                    >
+                      <div class="flex items-center justify-between gap-2">
+                        <span class="font-display font-bold text-sm text-slate-900 dark:text-white" x-text="formatStyleName(st.id)"></span>
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-brand-purple/10 dark:bg-white/10 text-brand-purple dark:text-brand-yellow" x-text="st.music_mood_default"></span>
+                      </div>
+                      <p class="text-xs text-slate-600 dark:text-purple-200/80 mt-1" x-text="st.description"></p>
+                      <div class="mt-2.5 text-[11px] font-medium text-slate-400 dark:text-purple-300/70">
+                        Tempo potongan: <span class="text-slate-700 dark:text-purple-100 font-semibold" x-text="`${st.cut_pace_sec[0]}–${st.cut_pace_sec[1]} dtk`"></span>
+                      </div>
+                    </button>
+                  </template>
+                </div>
+              </div>
+
+              <!-- Durasi Target -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+                <div class="flex items-center justify-between mb-2">
+                  <label for="duration-slider" class="font-display font-bold text-base text-slate-900 dark:text-white">
+                    Target Durasi Video
+                  </label>
+                  <span class="px-3 py-1 rounded-xl bg-brand-green/15 text-brand-green dark:text-emerald-300 font-display font-extrabold text-sm" x-text="`${form.duration} detik`"></span>
+                </div>
+
+                <input
+                  id="duration-slider"
+                  type="range"
+                  min="8"
+                  max="90"
+                  step="1"
+                  x-model.number="form.duration"
+                  class="w-full accent-brand-green cursor-pointer"
+                />
+
+                <div class="flex items-center justify-between text-[11px] text-slate-400 mt-1 mb-3">
+                  <span>8 dtk</span>
+                  <span>90 dtk</span>
+                </div>
+
+                <!-- Chip Cepat 15 / 20 / 30 / 45 -->
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-xs text-slate-500 dark:text-purple-200/75 mr-1">Pilihan cepat:</span>
+                  <template x-for="sec in [15, 20, 30, 45]" :key="sec">
+                    <button
+                      type="button"
+                      @click="form.duration = sec"
+                      :class="Number(form.duration) === sec
+                        ? 'bg-brand-purple text-white font-bold'
+                        : 'bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-purple-100 hover:bg-slate-200 dark:hover:bg-white/20'"
+                      class="px-3 py-1 rounded-full text-xs transition"
+                      x-text="`${sec} dtk`"
+                    ></button>
+                  </template>
+                </div>
+              </div>
+
+              <!-- Teks Hook & CTA -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60 space-y-5">
+                <!-- Hook Input + Penghitung Langsung -->
+                <div>
+                  <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                    <label for="hook-input" class="font-display font-bold text-base text-slate-900 dark:text-white">
+                      Teks Hook 3 Detik Pertama <span class="text-xs font-normal text-slate-400">(opsional)</span>
+                    </label>
+                    <span
+                      :class="isHookOverLimit(form.hook_text)
+                        ? 'bg-brand-red/15 text-brand-red font-bold'
+                        : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-purple-200 font-medium'"
+                      class="px-2.5 py-0.5 rounded-full text-xs transition"
+                      x-text="hookStatsText(form.hook_text)"
+                    ></span>
+                  </div>
+
+                  <input
+                    id="hook-input"
+                    type="text"
+                    x-model="form.hook_text"
+                    placeholder="Kosongkan → dipilih AI"
+                    :class="isHookOverLimit(form.hook_text) ? 'border-brand-red focus:ring-brand-red/30' : 'border-slate-300 dark:border-purple-700 focus:border-brand-green focus:ring-brand-green/30'"
+                    class="w-full rounded-xl border bg-white dark:bg-brand-purpleDeep px-3.5 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2"
+                  />
+
+                  <p x-show="isHookOverLimit(form.hook_text)" class="text-xs font-semibold text-brand-red mt-1.5 flex items-center gap-1">
+                    <span>⚠️ Kepanjangan, teks akan tampil kecil</span>
+                  </p>
+
+                  <!-- Chip Saran dari Pustaka Hook Pilar -->
+                  <div x-show="(hooksConfig[form.pillar] || []).length > 0" class="mt-3">
+                    <span class="block text-[11px] font-medium text-slate-500 dark:text-purple-200/75 mb-1.5">
+                      Saran dari Pustaka Hook (klik untuk pakai):
+                    </span>
+                    <div class="flex flex-wrap gap-1.5">
+                      <template x-for="(hItem, idx) in (hooksConfig[form.pillar] || [])" :key="idx">
+                        <button
+                          type="button"
+                          @click="form.hook_text = hItem.text"
+                          class="px-2.5 py-1 rounded-full text-xs bg-brand-yellow/20 hover:bg-brand-yellow/35 text-slate-800 dark:text-brand-yellow border border-brand-yellow/40 transition"
+                          x-text="hItem.text"
+                        ></button>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CTA Input -->
+                <div>
+                  <label for="cta-input" class="block font-display font-bold text-base text-slate-900 dark:text-white mb-1">
+                    Teks Ajakan (CTA) Akhir Video <span class="text-xs font-normal text-slate-400">(opsional)</span>
+                  </label>
+                  <input
+                    id="cta-input"
+                    type="text"
+                    x-model="form.cta_text"
+                    :placeholder="options.default_cta[form.pillar] || 'Booking sekarang via WhatsApp (000) 0000000!'"
+                    class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2.5 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                  />
+                </div>
+              </div>
+
+              <!-- Pilihan Musik -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+                <h3 class="font-display font-bold text-base text-slate-900 dark:text-white mb-1">
+                  Musik Latar
+                </h3>
+                <p class="text-xs text-slate-500 dark:text-purple-200/75 mb-3.5">
+                  Biarkan otomatis atau dengarkan cuplikan 10 detik untuk memilih lagu sendiri.
+                </p>
+
+                <div class="space-y-2">
+                  <!-- Opsi Otomatis -->
+                  <label
+                    :class="form.music_file === null
+                      ? 'border-brand-green bg-brand-green/10 dark:bg-brand-green/20'
+                      : 'border-slate-200 dark:border-purple-800/70 bg-slate-50/70 dark:bg-white/5'"
+                    class="flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition"
+                  >
+                    <div class="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="music_choice"
+                        :checked="form.music_file === null"
+                        @change="selectAutoMusic()"
+                        class="accent-brand-green w-4 h-4"
+                      />
+                      <div>
+                        <div class="text-sm font-bold text-slate-900 dark:text-white">Otomatis sesuai style</div>
+                        <div class="text-xs text-slate-500 dark:text-purple-200/75">AI mencocokkan beat musik dengan tempo potongan</div>
+                      </div>
+                    </div>
+                    <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand-green/15 text-brand-green dark:text-emerald-300">Rekomendasi</span>
+                  </label>
+
+                  <!-- Daftar Lagu -->
+                  <template x-for="track in options.music" :key="track.path">
+                    <div
+                      :class="form.music_file === track.path
+                        ? 'border-brand-green bg-brand-green/10 dark:bg-brand-green/20'
+                        : 'border-slate-200 dark:border-purple-800/70 bg-slate-50/70 dark:bg-white/5'"
+                      class="flex items-center justify-between p-3 rounded-xl border-2 transition"
+                    >
+                      <label class="flex items-center gap-3 flex-1 cursor-pointer min-w-0">
+                        <input
+                          type="radio"
+                          name="music_choice"
+                          :value="track.path"
+                          x-model="form.music_file"
+                          class="accent-brand-green w-4 h-4 shrink-0"
+                        />
+                        <div class="min-w-0">
+                          <div class="text-sm font-semibold text-slate-900 dark:text-white truncate" x-text="track.name"></div>
+                          <span class="inline-block text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-slate-200/80 dark:bg-white/10 text-slate-600 dark:text-purple-200" x-text="track.mood"></span>
+                        </div>
+                      </label>
+
+                      <button
+                        type="button"
+                        @click="toggleMusicPreview(track)"
+                        :aria-label="playingTrackPath === track.path ? 'Hentikan pratinjau lagu' : 'Putar 10 detik pratinjau lagu'"
+                        class="ml-3 px-3 py-1.5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white text-xs font-semibold flex items-center gap-1.5 shrink-0 transition"
+                      >
+                        <span x-text="playingTrackPath === track.path ? '⏹ Stop' : '▶ 10 dtk'"></span>
+                      </button>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel Ringkasan Kanan (5 kolom) -->
+            <div class="lg:col-span-5 lg:sticky lg:top-6 bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-md border border-slate-200/80 dark:border-purple-800/60 space-y-5">
+              <div class="flex items-center justify-between border-b border-slate-100 dark:border-purple-800/60 pb-3.5">
+                <h3 class="font-display font-extrabold text-lg text-slate-900 dark:text-white">
+                  Ringkasan Reel
+                </h3>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-brand-purple text-white" x-text="getPillarLabel(form.pillar)"></span>
+              </div>
+
+              <dl class="space-y-3 text-sm">
+                <div class="flex justify-between gap-4">
+                  <dt class="text-slate-500 dark:text-purple-200/75">Folder Footage</dt>
+                  <dd class="font-semibold text-right text-slate-900 dark:text-white" x-text="`${form.input_path} (${clips.length} klip)`"></dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                  <dt class="text-slate-500 dark:text-purple-200/75">Gaya Editing</dt>
+                  <dd class="font-semibold text-right text-slate-900 dark:text-white" x-text="formatStyleName(form.style)"></dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                  <dt class="text-slate-500 dark:text-purple-200/75">Target Durasi</dt>
+                  <dd class="font-semibold text-right text-slate-900 dark:text-white" x-text="`${form.duration} detik`"></dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                  <dt class="text-slate-500 dark:text-purple-200/75">Teks Hook</dt>
+                  <dd class="font-semibold text-right text-slate-900 dark:text-white max-w-[60%] truncate" x-text="form.hook_text.trim() || 'Dipilih otomatis oleh AI'"></dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                  <dt class="text-slate-500 dark:text-purple-200/75">Musik</dt>
+                  <dd class="font-semibold text-right text-slate-900 dark:text-white max-w-[60%] truncate" x-text="form.music_file ? getMusicName(form.music_file) : 'Otomatis sesuai style'"></dd>
+                </div>
+              </dl>
+
+              <div class="p-3.5 rounded-xl bg-brand-yellow/15 border border-brand-yellow/40 text-xs text-slate-700 dark:text-purple-100">
+                <strong>Catatan:</strong> AI akan memilih adegan terbaik, menyelaraskan potongan dengan ketukan musik, lalu mengecek kualitas video sebelum siap diunggah.
+              </div>
+
+              <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+                <button
+                  type="button"
+                  @click="wizardStep = 1"
+                  class="px-4 py-3 rounded-xl border border-slate-300 dark:border-purple-700 text-slate-700 dark:text-purple-100 hover:bg-slate-100 dark:hover:bg-white/5 text-sm font-semibold transition"
+                >
+                  ← Kembali
+                </button>
+                <button
+                  type="button"
+                  @click="submitCreateJob()"
+                  :disabled="submittingJob"
+                  class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-green hover:bg-brand-greenDark disabled:opacity-60 text-white font-display font-extrabold text-base shadow-lg shadow-brand-green/25 transition duration-150"
+                >
+                  <span x-show="submittingJob" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  <span x-text="submittingJob ? 'Menyiapkan…' : 'Buat Reel 🎬'"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== LANGKAH 3: PROSES ==================== -->
+          <div x-show="wizardStep === 3" x-transition.opacity.duration.150ms class="max-w-3xl mx-auto space-y-6">
+            <!-- Kartu Progress Utama -->
+            <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-6 sm:p-8 shadow-md border border-slate-200/80 dark:border-purple-800/60">
+              <div class="flex flex-col sm:flex-row items-center gap-6">
+                <!-- Lingkaran Progress SVG -->
+                <div class="relative w-32 h-32 shrink-0 flex items-center justify-center">
+                  <svg class="w-32 h-32 -rotate-90" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="52" stroke-width="10" class="stroke-slate-200 dark:stroke-purple-900" fill="none" />
+                    <circle
+                      cx="60" cy="60" r="52" stroke-width="10"
+                      stroke-linecap="round"
+                      :class="progress.state === 'gagal' ? 'stroke-brand-red' : 'stroke-brand-green'"
+                      fill="none"
+                      :stroke-dasharray="326.7"
+                      :stroke-dashoffset="326.7 - (326.7 * Math.min(100, Math.max(0, progress.percent)) / 100)"
+                      class="transition-all duration-200"
+                    />
+                  </svg>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                    <span class="font-display font-extrabold text-2xl text-slate-900 dark:text-white" x-text="`${Math.round(progress.percent)}%`"></span>
+                    <span class="text-[11px] font-mono text-slate-400 dark:text-purple-200/70" x-text="formatElapsed(progress.elapsed_sec)"></span>
+                  </div>
+                </div>
+
+                <!-- Label Langkah Aktif & Detail -->
+                <div class="flex-1 text-center sm:text-left space-y-2">
+                  <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-brand-green/15 text-brand-green dark:text-emerald-300">
+                    <span class="w-2 h-2 rounded-full bg-brand-green animate-ping"></span>
+                    <span x-text="`Langkah ${progress.step_index || 1} dari ${progress.steps_total || 6}`"></span>
+                  </div>
+
+                  <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900 dark:text-white" x-text="progress.step_label || 'Sedang memproses video…'"></h2>
+
+                  <p class="text-sm text-slate-600 dark:text-purple-200/85" x-text="progress.detail || 'Sedang memotong mengikuti beat musik…'"></p>
+
+                  <!-- Pesan Ramah Bila Ada Rate Limit [menunggu] -->
+                  <div
+                    x-show="hasRateLimitWait()"
+                    class="mt-3 p-3 rounded-xl bg-brand-yellow/20 border border-brand-yellow/50 text-xs text-slate-800 dark:text-brand-yellow flex items-center gap-2"
+                  >
+                    <i data-lucide="clock" class="w-4 h-4 shrink-0"></i>
+                    <span>AI sedang sibuk, sistem menunggu lalu mencoba lagi otomatis…</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Kartu Error Jika state === 'gagal' -->
+              <div
+                x-show="progress.state === 'gagal'"
+                class="mt-6 p-5 rounded-2xl bg-brand-red/10 border border-brand-red/40 text-slate-900 dark:text-white space-y-3"
+              >
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-brand-red text-white flex items-center justify-center shrink-0">
+                    <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-display font-bold text-base text-brand-red">Proses Pembuatan Reel Gagal</h3>
+                    <p class="text-sm text-slate-700 dark:text-purple-100 mt-0.5" x-text="progress.error || 'Terjadi kendala saat memproses video.'"></p>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2.5 pt-1">
+                  <button
+                    type="button"
+                    @click="retryFailedJob()"
+                    class="px-4 py-2 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-xs font-bold transition"
+                  >
+                    Coba lagi
+                  </button>
+                  <button
+                    type="button"
+                    @click="showProcessLog = true"
+                    class="px-4 py-2 rounded-xl bg-white dark:bg-white/10 border border-slate-300 dark:border-purple-700 text-xs font-semibold transition"
+                  >
+                    Lihat detail
+                  </button>
+                </div>
+              </div>
+
+              <!-- Timeline Vertikal 6 Langkah -->
+              <div class="mt-7 pt-6 border-t border-slate-100 dark:border-purple-800/60">
+                <ol class="space-y-3">
+                  <template x-for="(st, idx) in processSteps" :key="st.key">
+                    <li class="flex items-center gap-3.5">
+                      <!-- Ikon Status Langkah -->
+                      <div
+                        :class="{
+                          'bg-brand-green text-white': (idx + 1) < (progress.step_index || 1) || progress.state === 'selesai',
+                          'bg-brand-yellow text-brand-purple ring-4 ring-brand-yellow/25 animate-pulse': (idx + 1) === (progress.step_index || 1) && progress.state === 'berjalan',
+                          'bg-slate-200 dark:bg-white/10 text-slate-400 dark:text-purple-300/50': (idx + 1) > (progress.step_index || 1) && progress.state !== 'selesai'
+                        }"
+                        class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition"
+                      >
+                        <span x-text="((idx + 1) < (progress.step_index || 1) || progress.state === 'selesai') ? '✓' : (idx + 1)"></span>
+                      </div>
+
+                      <div class="flex-1 flex items-center justify-between">
+                        <span
+                          :class="(idx + 1) === (progress.step_index || 1) && progress.state === 'berjalan'
+                            ? 'font-bold text-slate-900 dark:text-white'
+                            : ((idx + 1) < (progress.step_index || 1) ? 'font-medium text-slate-600 dark:text-purple-200' : 'text-slate-400 dark:text-purple-300/50')"
+                          class="text-sm"
+                          x-text="st.label"
+                        ></span>
+
+                        <span
+                          x-show="(idx + 1) === (progress.step_index || 1) && progress.state === 'berjalan'"
+                          class="text-[11px] font-semibold text-brand-green dark:text-emerald-300"
+                        >Sedang berjalan…</span>
+                      </div>
+                    </li>
+                  </template>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Panel Log Collapsible -->
+            <div class="bg-white dark:bg-brand-purpleCard rounded-2xl border border-slate-200/80 dark:border-purple-800/60 overflow-hidden shadow-sm">
+              <button
+                type="button"
+                @click="showProcessLog = !showProcessLog"
+                class="w-full px-5 py-3.5 flex items-center justify-between text-left text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-slate-50 dark:hover:bg-white/5 transition"
+              >
+                <span class="flex items-center gap-2">
+                  <i data-lucide="terminal" class="w-4 h-4"></i>
+                  <span>Log Proses Teknis</span>
+                </span>
+                <span x-text="showProcessLog ? 'Sembunyikan ▲' : 'Tampilkan ▼'"></span>
+              </button>
+
+              <div
+                x-show="showProcessLog"
+                x-ref="logContainer"
+                class="px-5 py-4 bg-slate-950 text-emerald-300 font-mono text-xs max-h-56 overflow-y-auto space-y-1 custom-scrollbar"
+              >
+                <template x-for="(line, i) in (progress.log || [])" :key="i">
+                  <div x-text="line"></div>
+                </template>
+                <div x-show="!progress.log || progress.log.length === 0" class="text-slate-500">Menunggu log dari server…</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== LANGKAH 4: HASIL ==================== -->
+          <div x-show="wizardStep === 4 && currentJob" x-transition.opacity.duration.150ms class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Kiri: Bingkai Ponsel 9:16 + Toggle Zona Aman + Tombol Unduh -->
+            <div class="lg:col-span-5 flex flex-col items-center space-y-4">
+              <!-- Mockup Ponsel 9:16 -->
+              <div class="w-full max-w-[300px] rounded-[2.25rem] p-3 bg-slate-900 shadow-2xl border-4 border-slate-800">
+                <div class="relative aspect-[9/16] w-full rounded-[1.65rem] overflow-hidden bg-black">
+                  <!-- Video Player -->
+                  <video
+                    x-ref="resultVideo"
+                    :src="currentJob?.reel_url"
+                    :poster="currentJob?.cover_url"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    controls
+                    @error="videoLoadError = true"
+                    class="w-full h-full object-cover"
+                  ></video>
+
+                  <!-- Fallback Visual Simulasi Saat Mode MOCK Tanpa File MP4 Nyata -->
+                  <div
+                    x-show="isMockMode && videoLoadError"
+                    class="absolute inset-0 bg-gradient-to-b from-brand-purple via-slate-900 to-black flex flex-col items-center justify-between p-5 text-center text-white pointer-events-none"
+                  >
+                    <div class="mt-8 px-3 py-1 rounded-full bg-white/15 backdrop-blur-xs text-[10px] font-bold uppercase tracking-wider">
+                      Pratinjau 9:16 • <span x-text="getPillarLabel(currentJob?.pillar)"></span>
+                    </div>
+
+                    <div class="px-3">
+                      <span class="inline-block px-3 py-1.5 rounded-xl bg-brand-yellow text-brand-purple font-display font-extrabold text-lg leading-tight shadow-lg"
+                            x-text="currentJob?.edl?.hook_text || 'Hook 3 Detik Pertama'">
+                      </span>
+                      <p class="text-xs text-purple-200 mt-3 line-clamp-3" x-text="getFirstSegmentOverlay()"></p>
+                    </div>
+
+                    <div class="mb-10 w-full px-3 py-2 rounded-xl bg-brand-green text-white text-xs font-bold shadow">
+                      <span x-text="currentJob?.edl?.cta_text || 'Booking via WhatsApp!'"></span>
+                    </div>
+                  </div>
+
+                  <!-- Overlay Zona Aman Reels (±15% Atas & ±20% Bawah) -->
+                  <div x-show="showSafeZone" x-transition.opacity class="absolute inset-0 pointer-events-none flex flex-col justify-between">
+                    <div class="h-[15%] bg-brand-red/45 border-b-2 border-dashed border-white/80 flex items-center justify-center">
+                      <span class="text-[10px] font-bold text-white bg-black/60 px-2 py-0.5 rounded">
+                        Zona UI Atas IG (±15%)
+                      </span>
+                    </div>
+                    <div class="h-[20%] bg-brand-red/45 border-t-2 border-dashed border-white/80 flex items-center justify-center px-3 text-center">
+                      <span class="text-[10px] font-bold text-white bg-black/60 px-2 py-0.5 rounded">
+                        Zona Caption & Audio IG (±20%)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Toggle Zona Aman Reels -->
+              <label class="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white dark:bg-brand-purpleCard border border-slate-200 dark:border-purple-800/60 shadow-sm cursor-pointer text-xs font-semibold text-slate-700 dark:text-purple-100">
+                <input type="checkbox" x-model="showSafeZone" class="rounded accent-brand-green w-4 h-4" />
+                <span>Tampilkan zona aman Reels</span>
+              </label>
+
+              <!-- Tombol Aksi Unduh & Laporan -->
+              <div class="w-full max-w-[300px] grid grid-cols-2 gap-2.5">
+                <a
+                  :href="currentJob?.reel_url || '#'"
+                  :download="(currentJob?.job_id || 'reel') + '.mp4'"
+                  @click="handleMockDownload($event, 'Video MP4')"
+                  class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-xs font-bold shadow-sm transition"
+                >
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                  <span>Unduh MP4</span>
+                </a>
+                <a
+                  :href="currentJob?.cover_url || '#'"
+                  :download="(currentJob?.job_id || 'cover') + '.jpg'"
+                  @click="handleMockDownload($event, 'Cover JPG')"
+                  class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white text-xs font-bold shadow-sm transition"
+                >
+                  <i data-lucide="image" class="w-4 h-4"></i>
+                  <span>Unduh cover</span>
+                </a>
+                <button
+                  type="button"
+                  @click="showReportModal = true"
+                  class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-brand-purpleCard border border-slate-200 dark:border-purple-700 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-purple-100 text-xs font-semibold transition"
+                >
+                  <i data-lucide="file-text" class="w-4 h-4"></i>
+                  <span>Buka laporan</span>
+                </button>
+                <button
+                  type="button"
+                  @click="resetWizardToNew()"
+                  class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-brand-purpleCard border border-slate-200 dark:border-purple-700 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-purple-100 text-xs font-semibold transition"
+                >
+                  <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                  <span>Buat Reel baru</span>
+                </button>
+              </div>
+
+              <p class="text-[11px] text-center text-slate-500 dark:text-purple-200/70 max-w-[290px]">
+                💡 Audio trending Instagram ditambahkan manual di aplikasi IG saat unggah.
+              </p>
+            </div>
+
+            <!-- Kanan: Status, Statistik, Checklist, Caption, Edit & Render Ulang -->
+            <div class="lg:col-span-7 space-y-5">
+              <!-- Badge Status Besar -->
+              <div
+                :class="currentJob?.status === 'siap_unggah'
+                  ? 'bg-brand-green/10 border-brand-green/40'
+                  : 'bg-brand-yellow/20 border-brand-yellow/60'"
+                class="rounded-2xl p-5 border-2"
+              >
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <span class="text-2xl" x-text="currentJob?.status === 'siap_unggah' ? '✅' : '⚠️'"></span>
+                    <div>
+                      <h2
+                        :class="currentJob?.status === 'siap_unggah' ? 'text-brand-green dark:text-emerald-300' : 'text-amber-800 dark:text-brand-yellow'"
+                        class="font-display font-extrabold text-xl"
+                        x-text="currentJob?.status === 'siap_unggah' ? 'Siap Unggah' : 'Perlu Tinjau'"
+                      ></h2>
+                      <p class="text-xs sm:text-sm text-slate-700 dark:text-purple-100 mt-0.5"
+                         x-text="currentJob?.status === 'siap_unggah'
+                           ? 'Siap diunggah! Tinggal salin caption dan posting.'
+                           : 'Ada beberapa catatan kualitas yang sebaiknya dicek sebelum posting.'">
+                      </p>
+                    </div>
+                  </div>
+                  <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-black/10 dark:bg-white/10 text-slate-700 dark:text-purple-100" x-text="currentJob?.job_id"></span>
+                </div>
+
+                <!-- Daftar Butir yang Gagal (bila perlu_tinjau) -->
+                <div x-show="failedChecklistItems().length > 0" class="mt-3 pt-3 border-t border-amber-500/30 space-y-1">
+                  <p class="text-xs font-bold text-amber-900 dark:text-brand-yellow">Butir yang perlu perhatian:</p>
+                  <ul class="text-xs text-slate-700 dark:text-purple-100 space-y-1">
+                    <template x-for="(fc, i) in failedChecklistItems()" :key="i">
+                      <li class="flex items-center gap-1.5">
+                        <span x-text="fc.required ? '❌' : '⚠️'"></span>
+                        <span class="font-semibold" x-text="fc.name"></span>
+                        <span class="text-slate-500 dark:text-purple-200/70" x-text="'— ' + fc.detail"></span>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Kartu Statistik -->
+              <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                <div class="bg-white dark:bg-brand-purpleCard p-3.5 rounded-2xl border border-slate-200/80 dark:border-purple-800/60">
+                  <div class="text-[11px] text-slate-400 dark:text-purple-300/70">Durasi</div>
+                  <div class="font-display font-extrabold text-base text-slate-900 dark:text-white mt-0.5" x-text="(currentJob?.stats?.total_duration || 0).toFixed(1) + ' dtk'"></div>
+                </div>
+                <div class="bg-white dark:bg-brand-purpleCard p-3.5 rounded-2xl border border-slate-200/80 dark:border-purple-800/60">
+                  <div class="text-[11px] text-slate-400 dark:text-purple-300/70">Potongan</div>
+                  <div class="font-display font-extrabold text-base text-slate-900 dark:text-white mt-0.5" x-text="currentJob?.source === 'import' ? '—' : (currentJob?.stats?.segments || 0) + ' klip'"></div>
+                </div>
+                <div class="bg-white dark:bg-brand-purpleCard p-3.5 rounded-2xl border border-slate-200/80 dark:border-purple-800/60">
+                  <div class="text-[11px] text-slate-400 dark:text-purple-300/70">Ketepatan Beat</div>
+                  <div class="font-display font-extrabold text-base text-brand-green dark:text-emerald-400 mt-0.5" x-text="currentJob?.source === 'import' ? '—' : Math.round((currentJob?.stats?.beat_accuracy || 0) * 100) + '%'"></div>
+                </div>
+                <div class="bg-white dark:bg-brand-purpleCard p-3.5 rounded-2xl border border-slate-200/80 dark:border-purple-800/60">
+                  <div class="text-[11px] text-slate-400 dark:text-purple-300/70">Biaya AI</div>
+                  <div class="font-display font-extrabold text-base text-slate-900 dark:text-white mt-0.5" x-text="'$' + (currentJob?.stats?.cost_usd || 0).toFixed(4)"></div>
+                </div>
+                <div class="col-span-2 sm:col-span-1 bg-white dark:bg-brand-purpleCard p-3.5 rounded-2xl border border-slate-200/80 dark:border-purple-800/60">
+                  <div class="text-[11px] text-slate-400 dark:text-purple-300/70">Waktu Proses</div>
+                  <div class="font-display font-extrabold text-base text-slate-900 dark:text-white mt-0.5" x-text="(currentJob?.stats?.process_sec || 0) + ' dtk'"></div>
+                </div>
+              </div>
+
+              <!-- Checklist Siap Unggah (Dikelompokkan per Group) -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-3">
+                <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">
+                  Checklist Siap Unggah
+                </h3>
+
+                <div class="space-y-2.5">
+                  <template x-for="grp in groupedChecklist()" :key="grp.group">
+                    <div class="rounded-xl border border-slate-200/80 dark:border-purple-800/60 overflow-hidden">
+                      <button
+                        type="button"
+                        @click="toggleChecklistGroup(grp.group)"
+                        class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-white/5 flex items-center justify-between text-left text-xs font-bold text-slate-800 dark:text-purple-100 hover:bg-slate-100 dark:hover:bg-white/10 transition"
+                      >
+                        <span class="flex items-center gap-2">
+                          <span x-text="grp.allPassed ? '✅' : '⚠️'"></span>
+                          <span x-text="grp.group"></span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                          <span
+                            :class="grp.allPassed ? 'text-brand-green dark:text-emerald-400' : 'text-amber-600 dark:text-brand-yellow'"
+                            x-text="grp.passedCount + '/' + grp.items.length + ' lolos'"
+                          ></span>
+                          <span x-text="collapsedChecklistGroups[grp.group] ? '▸' : '▾'"></span>
+                        </span>
+                      </button>
+
+                      <div x-show="!collapsedChecklistGroups[grp.group]" class="divide-y divide-slate-100 dark:divide-purple-800/50">
+                        <template x-for="(chk, idx) in grp.items" :key="idx">
+                          <div class="px-3.5 py-2.5 flex items-start justify-between gap-3 text-xs">
+                            <div class="flex items-start gap-2">
+                              <span class="shrink-0 mt-0.5" x-text="chk.passed ? '✅' : (chk.required ? '❌' : '⚠️')"></span>
+                              <span class="font-medium text-slate-700 dark:text-purple-100" x-text="chk.name"></span>
+                            </div>
+                            <span class="text-slate-400 dark:text-purple-300/70 text-right shrink-0" x-text="chk.detail"></span>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+
+              <!-- Kotak Caption + Salin -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-3">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">
+                    Caption & Hashtag Siap Posting
+                  </h3>
+                  <button
+                    type="button"
+                    @click="copyCaption()"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-xs font-bold shadow-sm transition"
+                  >
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    <span>Salin caption</span>
+                  </button>
+                </div>
+                <textarea
+                  rows="5"
+                  readonly
+                  :value="currentJob?.caption || ''"
+                  class="w-full rounded-xl border border-slate-200 dark:border-purple-800 bg-slate-50 dark:bg-brand-purpleDeep p-3.5 text-xs sm:text-sm text-slate-800 dark:text-purple-100 leading-relaxed focus:outline-none"
+                ></textarea>
+              </div>
+
+              <!-- Edit & Render Ulang (Tanpa Biaya AI) -->
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">
+                      Edit Teks & Render Ulang
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-purple-200/75">
+                      Ubah tulisan di video tanpa mengulang analisis AI.
+                    </p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-brand-yellow/25 text-brand-purple dark:text-brand-yellow">
+                    Tanpa biaya AI
+                  </span>
+                </div>
+
+                <!-- Edit Hook -->
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <label for="rerender-hook" class="text-xs font-bold text-slate-700 dark:text-purple-100">Teks Hook</label>
+                    <span
+                      :class="isHookOverLimit(rerenderForm.hook_text)
+                        ? 'bg-brand-red/15 text-brand-red font-bold'
+                        : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-purple-200'"
+                      class="px-2 py-0.5 rounded-full text-[11px]"
+                      x-text="hookStatsText(rerenderForm.hook_text)"
+                    ></span>
+                  </div>
+                  <input
+                    id="rerender-hook"
+                    type="text"
+                    x-model="rerenderForm.hook_text"
+                    :class="isHookOverLimit(rerenderForm.hook_text) ? 'border-brand-red' : 'border-slate-300 dark:border-purple-700'"
+                    class="w-full rounded-xl border bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                  />
+                  <p x-show="isHookOverLimit(rerenderForm.hook_text)" class="text-xs font-semibold text-brand-red mt-1">
+                    Kepanjangan, teks akan tampil kecil
+                  </p>
+                </div>
+
+                <!-- Edit CTA -->
+                <div>
+                  <label for="rerender-cta" class="block text-xs font-bold text-slate-700 dark:text-purple-100 mb-1">Teks CTA</label>
+                  <input
+                    id="rerender-cta"
+                    type="text"
+                    x-model="rerenderForm.cta_text"
+                    class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                  />
+                </div>
+
+                <!-- Edit Teks Overlay per Segmen yang Punya Teks -->
+                <div x-show="editableSegments().length > 0" class="space-y-2.5">
+                  <span class="block text-xs font-bold text-slate-700 dark:text-purple-100">
+                    Teks Overlay Segmen Video
+                  </span>
+                  <template x-for="seg in editableSegments()" :key="seg.index">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                      <span class="text-[11px] font-mono px-2 py-1 rounded bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-purple-200 shrink-0"
+                            x-text="'Segmen #' + seg.index + ' (' + seg.start.toFixed(1) + '–' + seg.end.toFixed(1) + 'd)'">
+                      </span>
+                      <input
+                        type="text"
+                        x-model="rerenderForm.segment_texts[seg.index]"
+                        :aria-label="'Teks overlay segmen ' + seg.index"
+                        class="flex-1 rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3 py-1.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                      />
+                    </div>
+                  </template>
+                </div>
+
+                <div class="pt-1 flex justify-end">
+                  <button
+                    type="button"
+                    @click="submitRerender()"
+                    :disabled="rerendering"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white text-sm font-bold shadow-sm transition disabled:opacity-50"
+                  >
+                    <span x-show="rerendering" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <i x-show="!rerendering" data-lucide="refresh-cw" class="w-4 h-4"></i>
+                    <span x-text="rerendering ? 'Memulai Render Ulang…' : 'Render Ulang Video'"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- HALAMAN: IMPOR VIDEO JADI (video-use / editor lain)          -->
+        <!-- ============================================================ -->
+        <section x-show="currentPage === 'import'" x-transition.opacity.duration.150ms class="space-y-6">
+          <div>
+            <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
+              Impor Video Jadi
+            </h1>
+            <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1">
+              Untuk video yang sudah diedit di <strong>video-use</strong> (mode chat) atau editor lain. AutoReels membuatnya
+              siap unggah: 1080×1920, suara −14 LUFS, logo, CTA WhatsApp, caption &amp; hashtag, dan checklist.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Kiri: pilih video -->
+            <div class="lg:col-span-7 space-y-5">
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 dark:border-purple-800/60">
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white">1. Pilih Video</h2>
+                  <button type="button" @click="loadImportCandidates()"
+                          class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 transition">
+                    ↻ Muat ulang
+                  </button>
+                </div>
+
+                <div x-show="importCandidates.length === 0" class="py-8 px-4 text-center rounded-2xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-300 dark:border-purple-700">
+                  <p class="font-display font-bold text-sm text-slate-800 dark:text-white">Belum ada hasil video-use</p>
+                  <p class="text-xs text-slate-500 dark:text-purple-200/75 mt-1">
+                    Hasil video-use (<code class="font-mono">footage/…/edit/final.mp4</code>) akan muncul di sini otomatis,
+                    atau unggah video jadi di bawah.
+                  </p>
+                </div>
+
+                <div x-show="importCandidates.length > 0" class="space-y-2 max-h-80 overflow-y-auto pr-1 custom-scrollbar">
+                  <template x-for="cand in importCandidates" :key="cand.path">
+                    <label :class="importForm.video_path === cand.path
+                              ? 'border-brand-green bg-brand-green/10 dark:bg-brand-green/20'
+                              : 'border-slate-200 dark:border-purple-800/70 bg-slate-50/70 dark:bg-white/5'"
+                           class="flex items-center justify-between gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition">
+                      <div class="flex items-center gap-3 min-w-0">
+                        <input type="radio" name="import_video" :value="cand.path" x-model="importForm.video_path" class="accent-brand-green w-4 h-4 shrink-0" />
+                        <div class="min-w-0">
+                          <div class="text-sm font-semibold text-slate-900 dark:text-white truncate" x-text="cand.name"></div>
+                          <div class="text-[11px] text-slate-500 dark:text-purple-200/70 truncate" x-text="cand.path"></div>
+                        </div>
+                      </div>
+                      <div class="flex flex-col items-end gap-1 shrink-0">
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full"
+                              :class="cand.source === 'video-use' ? 'bg-brand-purple text-white' : 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-purple-100'"
+                              x-text="cand.source"></span>
+                        <span class="text-[11px] text-slate-400" x-text="`${cand.size_mb} MB • ${cand.modified}`"></span>
+                        <span x-show="cand.has_transcript" class="text-[10px] font-semibold text-brand-green dark:text-emerald-300">transkrip ✓</span>
+                      </div>
+                    </label>
+                  </template>
+                </div>
+
+                <!-- Unggah video jadi -->
+                <label for="import-file-input"
+                       class="mt-4 flex items-center justify-center gap-2 p-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-purple-700 hover:border-brand-green bg-slate-50 dark:bg-white/5 cursor-pointer text-sm font-semibold text-slate-700 dark:text-purple-100 transition">
+                  <i data-lucide="upload-cloud" class="w-5 h-5 text-brand-green"></i>
+                  <span x-text="importUploading ? 'Mengunggah…' : 'Atau unggah video jadi (.mp4/.mov)'"></span>
+                  <input id="import-file-input" type="file" accept=".mp4,.mov,video/mp4,video/quicktime" class="sr-only" @change="uploadImportFile($event)" />
+                </label>
+
+                <!-- Path manual -->
+                <div class="mt-4">
+                  <label for="import-path" class="block text-xs font-bold text-slate-700 dark:text-purple-100 mb-1">Atau tempel path file video</label>
+                  <input id="import-path" type="text" x-model="importForm.video_path"
+                         placeholder="mis. D:\Video\testimoni\edit\final.mp4"
+                         class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/30" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Kanan: pengaturan -->
+            <div class="lg:col-span-5 lg:sticky lg:top-6 bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 shadow-md border border-slate-200/80 dark:border-purple-800/60 space-y-4">
+              <h2 class="font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white">2. Atur &amp; Impor</h2>
+
+              <div>
+                <span class="block text-xs font-bold text-slate-700 dark:text-purple-100 mb-1.5">Pilar konten</span>
+                <div class="grid grid-cols-2 gap-2">
+                  <template x-for="p in options.pillars" :key="p.id">
+                    <button type="button" @click="importForm.pillar = p.id"
+                            :class="importForm.pillar === p.id ? 'bg-brand-green text-white font-bold' : 'bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-purple-100'"
+                            class="px-3 py-2 rounded-xl text-xs transition" x-text="p.label"></button>
+                  </template>
+                </div>
+              </div>
+
+              <div>
+                <label for="import-brief" class="block text-xs font-bold text-slate-700 dark:text-purple-100 mb-1">Isi/tujuan video <span class="font-normal text-slate-400">(opsional)</span></label>
+                <textarea id="import-brief" rows="2" x-model="importForm.brief" placeholder="Kosongkan → AI menyimpulkan dari transkrip"
+                          class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none"></textarea>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label for="import-hook" class="text-xs font-bold text-slate-700 dark:text-purple-100">Tempel teks hook di awal <span class="font-normal text-slate-400">(opsional)</span></label>
+                  <span :class="isHookOverLimit(importForm.hook_text) ? 'bg-brand-red/15 text-brand-red font-bold' : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-purple-200'"
+                        class="px-2 py-0.5 rounded-full text-[11px]" x-text="hookStatsText(importForm.hook_text)"></span>
+                </div>
+                <input id="import-hook" type="text" x-model="importForm.hook_text" placeholder="Kosongkan → pakai hook dari editor"
+                       class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none" />
+              </div>
+
+              <label class="flex items-center gap-2.5 text-sm font-semibold text-slate-800 dark:text-white cursor-pointer">
+                <input type="checkbox" x-model="importForm.add_cta" class="accent-brand-green w-4 h-4" />
+                <span>Tempel CTA WhatsApp di 3 detik terakhir</span>
+              </label>
+              <input x-show="importForm.add_cta" type="text" x-model="importForm.cta_text"
+                     :placeholder="options.default_cta[importForm.pillar] || 'Hubungi kami via WhatsApp!'"
+                     class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none" />
+
+              <label class="flex items-center gap-2.5 text-sm font-semibold text-slate-800 dark:text-white cursor-pointer">
+                <input type="checkbox" x-model="importForm.add_logo" class="accent-brand-green w-4 h-4" />
+                <span>Tempel logo Brand</span>
+              </label>
+
+              <button type="button" @click="submitImport()" :disabled="submittingImport || !importForm.video_path.trim()"
+                      class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-green hover:bg-brand-greenDark disabled:opacity-50 text-white font-display font-extrabold text-base shadow-lg shadow-brand-green/25 transition">
+                <span x-show="submittingImport" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <span x-text="submittingImport ? 'Menyiapkan…' : 'Impor & Siapkan Unggah 📥'"></span>
+              </button>
+              <p class="text-[11px] text-slate-500 dark:text-purple-200/70">
+                Belum pakai video-use? Lihat panduan di <code class="font-mono">docs/video-use.md</code>.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- HALAMAN 2: RIWAYAT                                           -->
+        <!-- ============================================================ -->
+        <section x-show="currentPage === 'history'" x-transition.opacity.duration.150ms class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
+                Riwayat Reels
+              </h1>
+              <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1">
+                Klik kartu untuk melihat pratinjau video, menyalin caption, atau render ulang teks.
+              </p>
+            </div>
+
+            <!-- Filter Pilar & Status -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <select
+                aria-label="Filter berdasarkan pilar"
+                x-model="historyFilter.pillar"
+                class="rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleCard px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+              >
+                <option value="all">Semua Pilar</option>
+                <template x-for="p in options.pillars" :key="p.id">
+                  <option :value="p.id" x-text="p.label"></option>
+                </template>
+              </select>
+
+              <select
+                aria-label="Filter berdasarkan status"
+                x-model="historyFilter.status"
+                class="rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleCard px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+              >
+                <option value="all">Semua Status</option>
+                <option value="siap_unggah">✅ Siap Unggah</option>
+                <option value="perlu_tinjau">⚠️ Perlu Tinjau</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Empty State Riwayat -->
+          <div x-show="filteredJobs().length === 0" class="bg-white dark:bg-brand-purpleCard rounded-2xl p-12 text-center border border-slate-200/80 dark:border-purple-800/60 shadow-sm">
+            <svg class="w-20 h-20 mx-auto text-slate-300 dark:text-purple-400/50 mb-4" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+              <rect x="18" y="10" width="44" height="60" rx="8" stroke="currentColor" stroke-width="3" />
+              <path d="M35 32L49 40L35 48V32Z" fill="currentColor" />
+            </svg>
+            <h2 class="font-display font-bold text-lg text-slate-900 dark:text-white">
+              Belum ada Reel. Yuk buat yang pertama!
+            </h2>
+            <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1 mb-5">
+              Tidak ada hasil yang cocok dengan filter saat ini atau belum ada video yang dibuat.
+            </p>
+            <button
+              type="button"
+              @click="navigateTo('create'); resetWizardToNew()"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-sm font-bold shadow-sm transition"
+            >
+              <i data-lucide="clapperboard" class="w-4 h-4"></i>
+              <span>Buat Reel Sekarang</span>
+            </button>
+          </div>
+
+          <!-- Grid Kartu Riwayat -->
+          <div x-show="filteredJobs().length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <template x-for="job in filteredJobs()" :key="job.job_id">
+              <article
+                @click="openJobDetail(job.job_id)"
+                tabindex="0"
+                @keydown.enter.prevent="openJobDetail(job.job_id)"
+                class="group bg-white dark:bg-brand-purpleCard rounded-2xl overflow-hidden border border-slate-200/80 dark:border-purple-800/60 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow"
+              >
+                <!-- Cover 9:16 -->
+                <div class="aspect-[9/16] max-h-72 w-full relative bg-gradient-to-br from-brand-purple via-indigo-950 to-slate-900 overflow-hidden">
+                  <img
+                    :src="job.cover_url"
+                    :alt="job.hook_text"
+                    @error="$event.target.style.display='none'"
+                    class="w-full h-full object-cover group-hover:scale-105 transition duration-200"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30"></div>
+
+                  <!-- Status Badge -->
+                  <span
+                    :class="job.status === 'siap_unggah'
+                      ? 'bg-brand-green text-white'
+                      : 'bg-brand-yellow text-brand-purple'"
+                    class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[11px] font-extrabold shadow"
+                    x-text="job.status === 'siap_unggah' ? '✅ Siap Unggah' : '⚠️ Perlu Tinjau'"
+                  ></span>
+
+                  <!-- Durasi -->
+                  <span class="absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-black/70 text-white font-mono text-[11px] font-semibold"
+                        x-text="job.duration.toFixed(1) + ' dtk'">
+                  </span>
+
+                  <!-- Hook Text Overlay -->
+                  <div class="absolute bottom-3 left-3 right-3">
+                    <span class="inline-block px-2 py-0.5 rounded bg-white/15 backdrop-blur-xs text-white text-[10px] font-bold uppercase mb-1.5"
+                          x-text="getPillarLabel(job.pillar)">
+                    </span>
+                    <h3 class="font-display font-extrabold text-base text-white leading-snug line-clamp-2"
+                        x-text="job.hook_text || 'Tanpa judul hook'">
+                    </h3>
+                  </div>
+                </div>
+
+                <!-- Footer Kartu -->
+                <div class="p-3.5 flex items-center justify-between text-xs text-slate-500 dark:text-purple-200/75">
+                  <span x-text="job.created"></span>
+                  <span class="font-semibold text-brand-green dark:text-emerald-400 group-hover:underline">Buka →</span>
+                </div>
+              </article>
+            </template>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- HALAMAN 3: PUSTAKA HOOK                                      -->
+        <!-- ============================================================ -->
+        <section x-show="currentPage === 'hooks'" x-transition.opacity.duration.150ms class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
+                Pustaka Hook
+              </h1>
+              <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1">
+                Kumpulan kalimat pembuka 3 detik pertama yang menarik perhatian penonton.
+              </p>
+            </div>
+            <button
+              type="button"
+              @click="saveHooksConfig()"
+              :disabled="savingConfig"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-sm font-bold shadow-sm transition disabled:opacity-50"
+            >
+              <span x-show="savingConfig" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              <i x-show="!savingConfig" data-lucide="save" class="w-4 h-4"></i>
+              <span>Simpan Perubahan</span>
+            </button>
+          </div>
+
+          <!-- Tab per Pilar -->
+          <div class="flex flex-wrap gap-2">
+            <template x-for="p in options.pillars" :key="p.id">
+              <button
+                type="button"
+                @click="activeConfigPillar = p.id"
+                :class="activeConfigPillar === p.id
+                  ? 'bg-brand-purple text-white shadow-sm'
+                  : 'bg-white dark:bg-brand-purpleCard text-slate-600 dark:text-purple-200 border border-slate-200 dark:border-purple-800/60 hover:bg-slate-100 dark:hover:bg-white/10'"
+                class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition"
+                x-text="p.label"
+              ></button>
+            </template>
+          </div>
+
+          <!-- Panduan Singkat Tipe Hook -->
+          <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-4 border border-slate-200/80 dark:border-purple-800/60 shadow-sm">
+            <div class="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-purple-100 mb-2.5">
+              <i data-lucide="info" class="w-4 h-4 text-brand-green"></i>
+              <span>Panduan Tipe Hook:</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
+              <template x-for="ht in hookTypes" :key="ht.id">
+                <div class="flex items-start gap-2 p-2 rounded-xl bg-slate-50 dark:bg-white/5">
+                  <span :class="ht.badgeClass" class="px-2 py-0.5 rounded-md text-[10px] font-bold shrink-0" x-text="ht.id"></span>
+                  <span class="text-slate-600 dark:text-purple-200/80" x-text="ht.desc"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Form Tambah Hook Baru -->
+          <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <label for="new-hook-text" class="text-sm font-bold text-slate-900 dark:text-white">
+                Tambah Hook Baru (<span x-text="getPillarLabel(activeConfigPillar)"></span>)
+              </label>
+              <span
+                :class="isHookOverLimit(newHook.text)
+                  ? 'bg-brand-red/15 text-brand-red font-bold'
+                  : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-purple-200'"
+                class="px-2.5 py-0.5 rounded-full text-xs"
+                x-text="hookStatsText(newHook.text)"
+              ></span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2.5">
+              <input
+                id="new-hook-text"
+                type="text"
+                x-model="newHook.text"
+                @keydown.enter.prevent="addHookItem()"
+                placeholder="Contoh: Liburan ke Garut?"
+                class="flex-1 rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2.5 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+              />
+              <select
+                aria-label="Tipe hook"
+                x-model="newHook.type"
+                class="rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2.5 text-sm font-medium text-slate-800 dark:text-white focus:border-brand-green focus:outline-none"
+              >
+                <template x-for="ht in hookTypes" :key="ht.id">
+                  <option :value="ht.id" x-text="ht.id"></option>
+                </template>
+              </select>
+              <button
+                type="button"
+                @click="addHookItem()"
+                :disabled="!newHook.text.trim()"
+                class="px-5 py-2.5 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-sm font-bold shadow-sm transition disabled:opacity-40"
+              >
+                + Tambah
+              </button>
+            </div>
+            <p x-show="isHookOverLimit(newHook.text)" class="text-xs font-semibold text-brand-red">
+              Kepanjangan, teks akan tampil kecil
+            </p>
+          </div>
+
+          <!-- Daftar Hook Aktif -->
+          <div class="bg-white dark:bg-brand-purpleCard rounded-2xl border border-slate-200/80 dark:border-purple-800/60 shadow-sm divide-y divide-slate-100 dark:divide-purple-800/60">
+            <template x-if="(hooksConfig[activeConfigPillar] || []).length === 0">
+              <div class="p-8 text-center text-sm text-slate-500 dark:text-purple-200/75">
+                Belum ada hook tersimpan untuk pilar ini. Tambahkan di atas!
+              </div>
+            </template>
+
+            <template x-for="(item, idx) in (hooksConfig[activeConfigPillar] || [])" :key="idx">
+              <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <!-- Mode Tampil -->
+                <template x-if="editingHookIndex !== idx">
+                  <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <span :class="getHookTypeBadgeClass(item.type)" class="px-2.5 py-1 rounded-lg text-xs font-bold shrink-0" x-text="item.type"></span>
+                    <span class="font-medium text-sm text-slate-800 dark:text-white truncate" x-text="item.text"></span>
+                  </div>
+                </template>
+
+                <!-- Mode Edit Inline -->
+                <template x-if="editingHookIndex === idx">
+                  <div class="flex-1 space-y-1.5">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                      <input
+                        type="text"
+                        x-model="editingHookDraft.text"
+                        class="flex-1 rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3 py-1.5 text-sm text-slate-800 dark:text-white"
+                      />
+                      <select
+                        x-model="editingHookDraft.type"
+                        class="rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white"
+                      >
+                        <template x-for="ht in hookTypes" :key="ht.id">
+                          <option :value="ht.id" x-text="ht.id"></option>
+                        </template>
+                      </select>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span :class="isHookOverLimit(editingHookDraft.text) ? 'text-brand-red font-bold' : 'text-slate-400'"
+                            x-text="hookStatsText(editingHookDraft.text)">
+                      </span>
+                      <span x-show="isHookOverLimit(editingHookDraft.text)" class="text-brand-red font-semibold">
+                        Kepanjangan, teks akan tampil kecil
+                      </span>
+                    </div>
+                  </div>
+                </template>
+
+                <!-- Tombol Aksi Baris -->
+                <div class="flex items-center gap-2 shrink-0">
+                  <template x-if="editingHookIndex !== idx">
+                    <div class="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        @click="startEditHook(idx, item)"
+                        class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-xs font-semibold text-slate-700 dark:text-purple-100 transition"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        @click="deleteHookItem(idx)"
+                        class="px-3 py-1.5 rounded-lg bg-brand-red/10 hover:bg-brand-red/20 text-xs font-semibold text-brand-red transition"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </template>
+                  <template x-if="editingHookIndex === idx">
+                    <div class="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        @click="applyEditHook(idx)"
+                        class="px-3 py-1.5 rounded-lg bg-brand-green text-white text-xs font-bold"
+                      >
+                        Terapkan
+                      </button>
+                      <button
+                        type="button"
+                        @click="editingHookIndex = null"
+                        class="px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-white/10 text-xs font-semibold"
+                      >
+                        Batal
+                      </button>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- HALAMAN 4: HASHTAG & KEYWORD                                 -->
+        <!-- ============================================================ -->
+        <section x-show="currentPage === 'hashtags'" x-transition.opacity.duration.150ms class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
+                Hashtag & Keyword SEO
+              </h1>
+              <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1">
+                Atur tagar dan kata kunci pencarian Instagram untuk setiap pilar konten.
+              </p>
+            </div>
+            <button
+              type="button"
+              @click="savePillarSeoConfig()"
+              :disabled="savingConfig"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-sm font-bold shadow-sm transition disabled:opacity-50"
+            >
+              <span x-show="savingConfig" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              <i x-show="!savingConfig" data-lucide="save" class="w-4 h-4"></i>
+              <span>Simpan Hashtag & Keyword</span>
+            </button>
+          </div>
+
+          <!-- Tab per Pilar -->
+          <div class="flex flex-wrap gap-2">
+            <template x-for="p in options.pillars" :key="p.id">
+              <button
+                type="button"
+                @click="switchSeoPillar(p.id)"
+                :class="activeSeoPillar === p.id
+                  ? 'bg-brand-purple text-white shadow-sm'
+                  : 'bg-white dark:bg-brand-purpleCard text-slate-600 dark:text-purple-200 border border-slate-200 dark:border-purple-800/60 hover:bg-slate-100 dark:hover:bg-white/10'"
+                class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition"
+                x-text="p.label"
+              ></button>
+            </template>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Kartu Hashtag -->
+            <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-4">
+              <div>
+                <label for="hashtag-input" class="block font-display font-bold text-base text-slate-900 dark:text-white">
+                  Hashtag Instagram
+                </label>
+                <p class="text-xs text-slate-500 dark:text-purple-200/75 mt-0.5">
+                  Otomatis diubah ke huruf kecil, tanpa spasi, dan diawali tanda <code class="font-mono">#</code>. Tekan Enter untuk menambah.
+                </p>
+              </div>
+
+              <div class="flex gap-2">
+                <input
+                  id="hashtag-input"
+                  type="text"
+                  x-model="newHashtagInput"
+                  @keydown.enter.prevent="addHashtagChip()"
+                  @keydown.comma.prevent="addHashtagChip()"
+                  placeholder="Ketik hashtag lalu Enter, mis. wisatagarut"
+                  class="flex-1 rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                />
+                <button
+                  type="button"
+                  @click="addHashtagChip()"
+                  class="px-4 py-2 rounded-xl bg-brand-purple text-white text-xs font-bold hover:bg-brand-purple/90 transition"
+                >
+                  Tambah
+                </button>
+              </div>
+
+              <div class="flex flex-wrap gap-2 min-h-[80px] p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/70 dark:border-purple-800/50 content-start">
+                <template x-for="(tag, idx) in (pillarSeoConfig[activeSeoPillar]?.hashtags || [])" :key="tag">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-green/15 text-brand-green dark:text-emerald-300 border border-brand-green/30">
+                    <span x-text="tag"></span>
+                    <button
+                      type="button"
+                      @click="removeHashtagChip(idx)"
+                      :aria-label="'Hapus ' + tag"
+                      class="hover:text-brand-red font-bold leading-none"
+                    >×</button>
+                  </span>
+                </template>
+                <span x-show="(pillarSeoConfig[activeSeoPillar]?.hashtags || []).length === 0" class="text-xs text-slate-400">
+                  Belum ada hashtag.
+                </span>
+              </div>
+            </div>
+
+            <!-- Kartu Keyword SEO -->
+            <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-4">
+              <div>
+                <label for="keyword-input" class="block font-display font-bold text-base text-slate-900 dark:text-white">
+                  Keyword SEO (Frasa Pencarian)
+                </label>
+                <p class="text-xs text-slate-500 dark:text-purple-200/75 mt-0.5">
+                  Frasa yang sering dicari calon pelanggan (AI akan menyisipkannya secara alami di caption).
+                </p>
+              </div>
+
+              <div class="flex gap-2">
+                <input
+                  id="keyword-input"
+                  type="text"
+                  x-model="newKeywordInput"
+                  @keydown.enter.prevent="addKeywordChip()"
+                  placeholder="Contoh: sewa motor garut"
+                  class="flex-1 rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/30"
+                />
+                <button
+                  type="button"
+                  @click="addKeywordChip()"
+                  class="px-4 py-2 rounded-xl bg-brand-purple text-white text-xs font-bold hover:bg-brand-purple/90 transition"
+                >
+                  Tambah
+                </button>
+              </div>
+
+              <div class="flex flex-wrap gap-2 min-h-[80px] p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/70 dark:border-purple-800/50 content-start">
+                <template x-for="(kw, idx) in (pillarSeoConfig[activeSeoPillar]?.keywords || [])" :key="kw">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-yellow/25 text-brand-purple dark:text-brand-yellow border border-brand-yellow/40">
+                    <span x-text="kw"></span>
+                    <button
+                      type="button"
+                      @click="removeKeywordChip(idx)"
+                      :aria-label="'Hapus ' + kw"
+                      class="hover:text-brand-red font-bold leading-none"
+                    >×</button>
+                  </span>
+                </template>
+                <span x-show="(pillarSeoConfig[activeSeoPillar]?.keywords || []).length === 0" class="text-xs text-slate-400">
+                  Belum ada keyword SEO.
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- HALAMAN 5: BRIEF TREN                                        -->
+        <!-- ============================================================ -->
+        <section x-show="currentPage === 'trends'" x-transition.opacity.duration.150ms class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
+                Brief Tren & Momen Garut
+              </h1>
+              <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1">
+                Masukan tren terkini agar ide hook & caption AI terasa relevan.
+                <span class="inline-block ml-1 font-semibold text-brand-purple dark:text-brand-yellow"
+                      x-text="'Diperbarui: ' + (trendsConfig.updated || '-')">
+                </span>
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button
+                type="button"
+                @click="clearAllTrends()"
+                class="px-4 py-2.5 rounded-xl bg-brand-red/10 hover:bg-brand-red/20 text-brand-red text-xs sm:text-sm font-bold transition"
+              >
+                Kosongkan semua
+              </button>
+              <button
+                type="button"
+                @click="saveTrendsConfig()"
+                :disabled="savingConfig"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-sm font-bold shadow-sm transition disabled:opacity-50"
+              >
+                <span x-show="savingConfig" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <i x-show="!savingConfig" data-lucide="save" class="w-4 h-4"></i>
+                <span>Simpan Brief Tren</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200/80 dark:border-purple-800/50 text-xs text-slate-600 dark:text-purple-200/80">
+            Catatan: Bila semua daftar dikosongkan, AI akan otomatis mengabaikan konteks tren dan fokus pada brief utama saja.
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <template x-for="sec in trendSections" :key="sec.key">
+              <div class="bg-white dark:bg-brand-purpleCard rounded-2xl p-5 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-3">
+                <div class="flex items-center justify-between">
+                  <h2 class="font-display font-bold text-base text-slate-900 dark:text-white" x-text="sec.label"></h2>
+                  <span class="text-xs text-slate-400" x-text="(trendsConfig[sec.key] || []).length + ' poin'"></span>
+                </div>
+
+                <!-- Input Tambah Baris -->
+                <div class="flex gap-2">
+                  <input
+                    type="text"
+                    x-model="trendInputs[sec.key]"
+                    @keydown.enter.prevent="addTrendItem(sec.key)"
+                    :placeholder="sec.placeholder"
+                    :aria-label="'Tambah ' + sec.label"
+                    class="flex-1 rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3 py-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    @click="addTrendItem(sec.key)"
+                    class="px-3.5 py-2 rounded-xl bg-brand-purple text-white text-xs font-bold hover:bg-brand-purple/90 transition"
+                  >
+                    + Tambah
+                  </button>
+                </div>
+
+                <!-- Daftar Poin -->
+                <ul class="space-y-2">
+                  <template x-for="(point, idx) in (trendsConfig[sec.key] || [])" :key="idx">
+                    <li class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-white/5 text-xs sm:text-sm">
+                      <span class="text-slate-700 dark:text-purple-100" x-text="'• ' + point"></span>
+                      <button
+                        type="button"
+                        @click="removeTrendItem(sec.key, idx)"
+                        aria-label="Hapus poin"
+                        class="text-slate-400 hover:text-brand-red font-bold px-1.5"
+                      >
+                        Hapus
+                      </button>
+                    </li>
+                  </template>
+                  <li x-show="(trendsConfig[sec.key] || []).length === 0" class="text-xs text-slate-400 italic py-2">
+                    Belum ada poin diisi.
+                  </li>
+                </ul>
+              </div>
+            </template>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- HALAMAN 6: BRAND & CAPTION                                   -->
+        <!-- ============================================================ -->
+        <section x-show="currentPage === 'brand'" x-transition.opacity.duration.150ms class="space-y-6">
+          <div>
+            <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
+              Brand & Gaya Caption
+            </h1>
+            <p class="text-sm text-slate-500 dark:text-purple-200/75 mt-1">
+              Atur info harga, CTA default per pilar, serta aturan gaya bahasa caption AI.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Kartu 1: Pengaturan Brand -->
+            <div class="lg:col-span-6 bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-5">
+              <div class="flex items-center justify-between border-b border-slate-100 dark:border-purple-800/60 pb-3">
+                <h2 class="font-display font-bold text-lg text-slate-900 dark:text-white">
+                  Identitas & Penawaran Brand
+                </h2>
+                <button
+                  type="button"
+                  @click="saveBrandConfig()"
+                  :disabled="savingConfig"
+                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-xs font-bold shadow-sm transition disabled:opacity-50"
+                >
+                  <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                  <span>Simpan Brand</span>
+                </button>
+              </div>
+
+              <!-- Info Read-Only WA & IG -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/70 dark:border-purple-800/50">
+                  <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                    <span>WhatsApp Resmi</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-white/10">Read-only</span>
+                  </div>
+                  <div class="font-bold text-sm text-slate-800 dark:text-white mt-1" x-text="brandConfig.whatsapp"></div>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/70 dark:border-purple-800/50">
+                  <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                    <span>Instagram</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-white/10">Read-only</span>
+                  </div>
+                  <div class="font-bold text-sm text-slate-800 dark:text-white mt-1" x-text="brandConfig.instagram"></div>
+                </div>
+              </div>
+
+              <!-- Harga Sewa per Hari -->
+              <div>
+                <label for="brand-price" class="block text-xs font-bold text-slate-700 dark:text-purple-100 mb-1">
+                  Harga Sewa per Hari
+                </label>
+                <input
+                  id="brand-price"
+                  type="text"
+                  x-model="brandConfig.price_per_day"
+                  @input="hasUnsavedConfig = true"
+                  class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none"
+                />
+                <p class="text-[11px] text-slate-500 dark:text-purple-200/75 mt-1">
+                  💡 Biarkan <code class="font-mono font-bold">[HARGA]</code> bila belum pasti — AI tidak akan menyebut harga di video/caption.
+                </p>
+              </div>
+
+              <!-- CTA Default per Pilar -->
+              <div class="space-y-3">
+                <span class="block text-xs font-bold text-slate-700 dark:text-purple-100">
+                  CTA Default per Pilar
+                </span>
+                <template x-for="p in options.pillars" :key="p.id">
+                  <div>
+                    <label :for="'cta-default-' + p.id" class="block text-[11px] font-semibold text-slate-500 dark:text-purple-200/80 mb-1" x-text="p.label"></label>
+                    <input
+                      :id="'cta-default-' + p.id"
+                      type="text"
+                      x-model="brandConfig.default_cta[p.id]"
+                      @input="hasUnsavedConfig = true"
+                      class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3 py-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none"
+                    />
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Kartu 2: Panduan Caption -->
+            <div class="lg:col-span-6 bg-white dark:bg-brand-purpleCard rounded-2xl p-5 sm:p-6 border border-slate-200/80 dark:border-purple-800/60 shadow-sm space-y-5">
+              <div class="flex items-center justify-between border-b border-slate-100 dark:border-purple-800/60 pb-3">
+                <h2 class="font-display font-bold text-lg text-slate-900 dark:text-white">
+                  Panduan Gaya Caption
+                </h2>
+                <button
+                  type="button"
+                  @click="saveCaptionGuideConfig()"
+                  :disabled="savingConfig"
+                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white text-xs font-bold shadow-sm transition disabled:opacity-50"
+                >
+                  <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                  <span>Simpan Panduan</span>
+                </button>
+              </div>
+
+              <!-- Fields Panduan -->
+              <div class="space-y-3">
+                <template x-for="fieldKey in Object.keys(captionGuideConfig.fields || {})" :key="fieldKey">
+                  <div>
+                    <label :for="'cg-' + fieldKey" class="block text-xs font-bold text-slate-700 dark:text-purple-100 mb-1" x-text="fieldKey"></label>
+                    <input
+                      :id="'cg-' + fieldKey"
+                      type="text"
+                      x-model="captionGuideConfig.fields[fieldKey]"
+                      @input="hasUnsavedConfig = true"
+                      class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep px-3.5 py-2 text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none"
+                    />
+                  </div>
+                </template>
+              </div>
+
+              <!-- 0-3 Contoh Caption -->
+              <div class="space-y-3 pt-2 border-t border-slate-100 dark:border-purple-800/60">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-700 dark:text-purple-100">
+                    Contoh Caption Referensi (maks. 3)
+                  </span>
+                  <button
+                    type="button"
+                    x-show="(captionGuideConfig.examples || []).length < 3"
+                    @click="addCaptionExample()"
+                    class="px-3 py-1 rounded-lg bg-brand-purple text-white text-xs font-bold hover:bg-brand-purple/90 transition"
+                  >
+                    + Tambah Contoh
+                  </button>
+                </div>
+
+                <template x-for="(ex, idx) in (captionGuideConfig.examples || [])" :key="idx">
+                  <div class="space-y-1">
+                    <div class="flex items-center justify-between text-[11px] text-slate-400">
+                      <span x-text="'Contoh #' + (idx + 1)"></span>
+                      <button
+                        type="button"
+                        @click="removeCaptionExample(idx)"
+                        class="text-brand-red hover:underline font-semibold"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                    <textarea
+                      rows="3"
+                      x-model="captionGuideConfig.examples[idx]"
+                      @input="hasUnsavedConfig = true"
+                      placeholder="Tulis contoh caption dengan gaya bahasa yang diinginkan…"
+                      class="w-full rounded-xl border border-slate-300 dark:border-purple-700 bg-white dark:bg-brand-purpleDeep p-3 text-xs sm:text-sm text-slate-800 dark:text-white focus:border-brand-green focus:outline-none"
+                    ></textarea>
+                  </div>
+                </template>
+
+                <p x-show="(captionGuideConfig.examples || []).length === 0" class="text-xs text-slate-400 italic">
+                  Belum ada contoh caption. Klik "+ Tambah Contoh" bila ingin memberi referensi gaya tulisan ke AI.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- NAVIGASI BAWAH MOBILE (< lg) -->
+    <nav class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 dark:bg-brand-purple/95 backdrop-blur-md border-t border-slate-200 dark:border-purple-800 px-1 py-1.5 flex items-center justify-around shadow-lg" aria-label="Navigasi Mobile">
+      <template x-for="item in navItems" :key="item.id">
+        <button
+          type="button"
+          @click="navigateTo(item.id)"
+          :class="currentPage === item.id
+            ? 'text-brand-green dark:text-brand-yellow font-bold'
+            : 'text-slate-500 dark:text-purple-200/75 font-medium'"
+          class="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-[10px] gap-1 min-w-[54px] transition"
+        >
+          <i :data-lucide="item.icon" class="w-4 h-4"></i>
+          <span class="truncate max-w-[62px]" x-text="item.shortLabel || item.label"></span>
+        </button>
+      </template>
+    </nav>
+  </div>
+
+  <!-- ==================== MODAL LAPORAN MARKDOWN ==================== -->
+  <div
+    x-show="showReportModal"
+    x-transition.opacity
+    @keydown.escape.window="showReportModal = false"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="report-modal-title"
+  >
+    <div
+      @click.outside="showReportModal = false"
+      class="bg-white dark:bg-brand-purpleCard w-full max-w-2xl max-h-[85vh] rounded-2xl border border-slate-200 dark:border-purple-700 shadow-2xl flex flex-col overflow-hidden"
+    >
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-purple-800 flex items-center justify-between">
+        <h3 id="report-modal-title" class="font-display font-extrabold text-lg text-slate-900 dark:text-white">
+          Laporan Produksi Reel
+        </h3>
+        <button
+          type="button"
+          @click="showReportModal = false"
+          aria-label="Tutup modal laporan"
+          class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-purple-200"
+        >
+          ✕
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto prose-report text-sm text-slate-700 dark:text-purple-100 space-y-3 custom-scrollbar"
+           x-html="renderSimpleMarkdown(currentJob?.report_md || '')">
+      </div>
+      <div class="px-6 py-3.5 border-t border-slate-200 dark:border-purple-800 flex justify-end">
+        <button
+          type="button"
+          @click="showReportModal = false"
+          class="px-4 py-2 rounded-xl bg-brand-purple text-white text-xs font-bold"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL KONFIRMASI UNSAVED CHANGES ==================== -->
+  <div
+    x-show="unsavedModal.open"
+    x-transition.opacity
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white dark:bg-brand-purpleCard w-full max-w-md rounded-2xl p-6 border border-slate-200 dark:border-purple-700 shadow-2xl space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-brand-yellow/25 text-amber-700 dark:text-brand-yellow flex items-center justify-center shrink-0">
+          <i data-lucide="alert-circle" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">
+            Perubahan Belum Disimpan
+          </h3>
+          <p class="text-xs text-slate-500 dark:text-purple-200/75 mt-0.5">
+            Perubahan pengaturan yang belum disimpan akan hilang jika kamu berpindah halaman.
+          </p>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2.5 pt-2">
+        <button
+          type="button"
+          @click="unsavedModal.open = false"
+          class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-purple-100 text-xs font-semibold"
+        >
+          Tetap di Halaman Ini
+        </button>
+        <button
+          type="button"
+          @click="confirmDiscardChanges()"
+          class="px-4 py-2 rounded-xl bg-brand-red text-white text-xs font-bold"
+        >
+          Tinggalkan Tanpa Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST POJOK KANAN BAWAH ==================== -->
+  <div class="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-50 flex flex-col gap-2 pointer-events-none">
+    <template x-for="t in toasts" :key="t.id">
+      <div
+        x-transition
+        :class="t.type === 'error'
+          ? 'bg-brand-red text-white border-red-400/40'
+          : 'bg-brand-green text-white border-emerald-400/40'"
+        class="pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-semibold max-w-sm"
+      >
+        <span x-text="t.type === 'error' ? '❌' : '✅'"></span>
+        <span x-text="t.message"></span>
+      </div>
+    </template>
+  </div>
+</body>
+</html>

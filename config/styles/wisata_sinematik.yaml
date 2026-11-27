@@ -1,0 +1,16 @@
+# Potongan lebih panjang, fade, warna hangat, musik santai/inspiratif.
+name: wisata_sinematik
+description: "Sinematik untuk suasana perjalanan wisata Garut"
+cut_pace_sec: [1.5, 3.0]
+transitions: [fade, cut]
+text_style: elegan_tipis
+font: Montserrat/Montserrat-SemiBold.ttf
+colors: { text: "#FFF8E7", outline: "#3A2A1A", highlight: "#FFB347" }
+color_grade: warm
+color_match: 0.6             # seragamkan warna antar klip sebelum look (0 = mati; render/color.py)
+sfx_db: null                  # efek suara transisi (whoosh/thump/pop), dB; null = tanpa (render/sfx.py)
+stabilize: true             # adegan goyang distabilkan (vidstab); false = mati
+zoom_punch_on_emphasis: false
+music_mood_default: santai
+original_audio_db: -30
+speed_range: [1.0, 1.25]

@@ -1,0 +1,76 @@
+/* AutoReels Studio — Custom Styles (Contoh Brand) */
+
+/* Hormati pengaturan aksesibilitas pengguna untuk pengurangan animasi */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scrollbar halus untuk daftar klip & log teknis */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.55);
+}
+
+/* Styling ringan untuk modal laporan Markdown */
+.prose-report h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-report h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.prose-report h3 {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.prose-report ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+}
+
+.prose-report li {
+  margin-bottom: 0.25rem;
+}
+
+.prose-report code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.375rem;
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.prose-report hr {
+  border-color: rgba(148, 163, 184, 0.25);
+  margin: 0.75rem 0;
+}

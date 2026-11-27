@@ -1,0 +1,19 @@
+# Teks overlay dominan, tempo sedang.
+name: info_lowongan
+description: "Informatif untuk profil perusahaan & lowongan kerja"
+cut_pace_sec: [1.5, 2.5]
+transitions: [cut, slide_left]
+text_style: rapi_box
+font: Montserrat/Montserrat-ExtraBold.ttf
+colors: { text: "#FFFFFF", box: "#000000CC", highlight: "#FFC400", emphasis: "#3DDC84" }
+zoom_punch_on_emphasis: true
+color_grade: none            # punchy | warm | clean | none (render/cut.py GRADES)
+color_match: 0.6             # seragamkan warna antar klip sebelum look (0 = mati; render/color.py)
+sfx_db: -6                    # efek suara transisi (whoosh/thump/pop), dB; null = tanpa (render/sfx.py)
+stabilize: true             # adegan goyang distabilkan (vidstab); false = mati
+music_mood_default: upbeat
+original_audio_db: -30
+speed_range: [1.0, 1.25]
+
+# Teks hook di belakang orang (render/behind.py); otomatis hook biasa bila tidak ada posisi yang pas
+hook_behind: true

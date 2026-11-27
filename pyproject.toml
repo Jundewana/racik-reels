@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autoreels"
+version = "0.1.0"
+description = "AutoReels — ubah video mentah menjadi Instagram Reels siap unggah (Contoh Brand)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.6",
+    "typer>=0.12",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "litellm>=1.40",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+# Tahap 1–2: analisis video (semua CPU, tanpa GPU)
+analysis = [
+    "scenedetect[opencv-headless]>=0.6.3",
+    "opencv-python-headless>=4.9",
+    "librosa>=0.10",
+    "numpy>=1.26",
+]
+# Tahap 2: deteksi wajah untuk blur privasi & crop wajah
+faces = ["mediapipe>=0.10"]
+# Tahap 3: transkripsi CPU
+speech = ["faster-whisper>=1.0"]
+# Tahap 5: UI web (AutoReels Studio: ui/ + autoreels/server.py)
+web = ["fastapi>=0.110", "uvicorn>=0.29", "python-multipart>=0.0.9"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+autoreels = "autoreels.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["autoreels*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

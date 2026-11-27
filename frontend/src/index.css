@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Font lokal (salinan dari assets/fonts, lisensi OFL di src/fonts) ---------- */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/fonts/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('./assets/fonts/BarlowCondensed-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('./assets/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('./assets/fonts/BarlowCondensed-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+}
+
+/* ---------- Token warna (RGB) — terang ---------- */
+:root {
+  --paper: 238 237 242;     /* #EEEDF2 latar */
+  --surface: 255 255 255;
+  --sunken: 228 226 236;    /* area tertanam: kotak caption, track */
+  --ink: 28 20 51;          /* #1C1433 teks utama */
+  --muted: 97 90 120;       /* #615A78 teks sekunder */
+  --line: 214 211 224;      /* #D6D3E0 garis */
+  --brand: 43 23 110;       /* #2B176E ungu logo: struktur & pilihan aktif */
+  --brand-soft: 232 228 246;
+  --on-brand: 255 255 255;
+  --go: 0 132 58;           /* #00843A hijau logo (digelapkan agar teks putih lolos AA): aksi utama & lolos */
+  --go-text: 0 110 48;
+  --on-go: 255 255 255;
+  --hook: 255 196 0;        /* #FFC400 khusus hook (sama dengan highlight teks di video) */
+  --on-hook: 43 23 110;
+  --stop: 217 38 28;        /* #D9261C merah logo: error & perlu tinjau */
+  --stop-text: 184 30 21;
+  --on-stop: 255 255 255;
+  color-scheme: light;
+}
+
+/* ---------- Token warna — gelap ---------- */
+.dark {
+  --paper: 17 12 34;
+  --surface: 27 20 51;
+  --sunken: 22 16 43;
+  --ink: 236 234 244;
+  --muted: 165 159 191;
+  --line: 52 44 86;
+  --brand: 185 168 255;
+  --brand-soft: 45 34 96;
+  --on-brand: 23 16 46;
+  --go: 38 186 101;
+  --go-text: 92 214 140;
+  --on-go: 6 30 16;
+  --hook: 255 196 0;
+  --on-hook: 28 20 51;
+  --stop: 240 86 74;
+  --stop-text: 255 138 128;
+  --on-stop: 30 8 6;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand));
+    outline-offset: 2px;
+  }
+  input, textarea, select {
+    @apply text-ink;
+  }
+  ::selection {
+    background: rgb(var(--hook));
+    color: rgb(var(--on-hook));
+  }
+}
+
+@layer components {
+  /* Isian teks standar */
+  .field {
+    @apply w-full rounded-md border border-line bg-surface px-3 py-2 text-[15px] text-ink transition-colors;
+  }
+  .field::placeholder {
+    color: rgb(var(--muted) / 0.75);
+  }
+  .field:focus {
+    @apply border-brand outline-none;
+    box-shadow: 0 0 0 3px rgb(var(--brand) / 0.15);
+  }
+  .field-invalid,
+  .field-invalid:focus {
+    @apply border-stop;
+    box-shadow: 0 0 0 3px rgb(var(--stop) / 0.15);
+  }
+  select.field {
+    @apply pr-8;
+  }
+  /* Angka tabular untuk durasi, persen, waktu */
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  .scroll-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scroll-thin::-webkit-scrollbar-track { background: transparent; }
+  .scroll-thin::-webkit-scrollbar-thumb { background: rgb(var(--muted) / 0.35); border-radius: 9999px; }
+
+  /* Isi laporan markdown */
+  .prose-report h1 { @apply font-display font-extrabold text-2xl leading-tight mb-2; }
+  .prose-report h2 { @apply font-display font-bold text-lg mt-5 mb-1.5; }
+  .prose-report h3 { @apply font-semibold mt-3 mb-1; }
+  .prose-report p { @apply mb-2; }
+  .prose-report ul { @apply list-disc pl-5 mb-2; }
+  .prose-report li { @apply mb-1; }
+  .prose-report code { @apply rounded bg-sunken px-1 text-[0.85em]; }
+  .prose-report hr { @apply my-4 border-line; }
+}
+
+/* Satu-satunya animasi otomatis: strip struktur Reel tergambar saat hasil dibuka */
+@keyframes strip-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.strip-grow {
+  transform-origin: left center;
+  animation: strip-grow 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

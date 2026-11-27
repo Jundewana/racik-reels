@@ -1,0 +1,40 @@
+# ============================================================================
+# AutoReels — daftar paket Python (versi yang terpasang & lolos tes, 2026-11-19)
+# Python 3.11+ (diuji di Python 3.12.6, Windows 11). Tanpa GPU, tanpa model AI lokal.
+#
+# Instalasi (di folder proyek):
+#   python -m venv .venv
+#   .\.venv\Scripts\Activate.ps1
+#   pip install -r requirements.txt
+#
+# Baris terakhir (-e .) sekaligus memasang perintah `autoreels`.
+# Daftar ini sama dengan extra [dev,analysis,web,speech] di pyproject.toml.
+# Di luar Python juga dibutuhkan: FFmpeg (winget install Gyan.FFmpeg).
+# ============================================================================
+
+# --- Inti -------------------------------------------------------------------
+pydantic==2.14.3             # skema EDL (kontrak AI ↔ renderer) & validasi data
+typer==0.29.1                # perintah CLI: autoreels run / import / render / studio
+rich==15.0.0                 # tampilan terminal: progress bar, warna, tabel
+PyYAML==6.0.3                # membaca config/*.yaml (brand, pilar, hook, style)
+python-dotenv==1.2.4         # membaca API key dari .env
+litellm==1.110.0             # satu pintu ke API AI: Gemini, Groq, Claude, OpenAI
+
+# --- Analisis video & audio (CPU) --------------------------------------------
+scenedetect==0.7.3           # deteksi pergantian adegan (PySceneDetect)
+opencv-python-headless==5.1.0.95  # skor kualitas frame, saliency untuk crop 9:16, kartu logo
+librosa==1.0.1               # deteksi beat & tempo musik
+numpy==2.5.5                 # perhitungan numerik (dipakai OpenCV & librosa)
+faster-whisper==1.2.1        # transkripsi ucapan per kata di CPU (Tahap 3: video bicara, subtitle karaoke)
+
+# --- Tampilan web AutoReels Studio -------------------------------------------
+fastapi==0.165.0             # backend API (autoreels/server.py)
+uvicorn==0.54.0              # server web lokal (127.0.0.1)
+python-multipart==0.0.34     # unggah video dari browser
+
+# --- Pengembangan & tes --------------------------------------------------------
+pytest==9.2.0                # menjalankan tes (tests/)
+httpx==0.28.1                # klien HTTP untuk tes API
+
+# --- Paket AutoReels sendiri (mode editable) -----------------------------------
+-e .

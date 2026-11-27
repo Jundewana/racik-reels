@@ -1,0 +1,6 @@
+# Normalisasi akhir baris: simpan LF di repo
+* text=auto eol=lf
+*.ttf binary
+*.otf binary
+*.jpg binary
+*.png binary

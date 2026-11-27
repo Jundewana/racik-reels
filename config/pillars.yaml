@@ -1,0 +1,48 @@
+# Daftar pilar konten, audiens, struktur naratif default, dan hashtag dasar.
+
+rental:
+  label: "A. Rental Motor"
+  priority: 1
+  audience: ["wisatawan ke Garut", "warga lokal", "mahasiswa/perantau"]
+  goal: "booking via WhatsApp/DM"
+  default_style: rental_energik
+  narrative: ["hook visual (motor/pemandangan terbaik)", "keunggulan (unit, harga, syarat mudah)", "suasana perjalanan", "CTA booking"]
+  hashtags: ["#sewamotorgarut", "#rentalmotorgarut", "#stasiungarut", "#wisatagarut", "#cipanasgarut", "#gunungpapandayan", "#exploregarut", "#garut"]
+  keywords: ["sewa motor garut", "rental motor garut murah terpercaya", "sewa motor harian garut", "sewa motor beat garut", "sewa motor scoopy garut", "sewa motor vario garut", "rental motor antar jemput stasiun garut"]
+
+konstruksi:
+  label: "B. Konstruksi & Arsitektur"
+  priority: 2
+  audience: ["instansi pemerintah/desa", "pemilik proyek swasta", "calon klien"]
+  goal: "kredibilitas & portofolio"
+  default_style: proyek_profesional
+  narrative: ["hook before-after singkat", "proses kronologis (speed-up)", "hasil akhir", "kredibilitas", "CTA konsultasi"]
+  hashtags: ["#konstruksigarut", "#kontraktorgarut", "#arsitektur", "#garut"]
+
+profil:
+  label: "C. Jasa & Operasional Lain"
+  priority: 3
+  audience: ["mitra institusi"]
+  goal: "profil perusahaan & kepercayaan"
+  default_style: info_lowongan
+  narrative: ["hook pertanyaan", "poin utama (teks overlay)", "CTA"]
+  hashtags: ["#contohbrand", "#garut", "#perusahaangarut"]
+
+lowongan:
+  label: "D. Employer Branding"
+  priority: 4
+  audience: ["pencari kerja Garut"]
+  goal: "info lowongan & budaya kerja"
+  default_style: info_lowongan
+  narrative: ["hook pertanyaan", "poin utama (teks overlay)", "CTA"]
+  hashtags: ["#lokergarut", "#lowongankerjagarut", "#garut", "#contohbrand"]
+
+umum:
+  label: "E. Konten Umum"
+  priority: 5
+  audience: ["pengikut akun secara umum"]
+  goal: "konten bermanfaat/menarik di luar unit usaha (klip kuliah, podcast, edukasi, momen) — tanpa promosi"
+  default_style: klip_informatif
+  default_purpose: informasi
+  narrative: ["hook (kalimat/visual paling menohok)", "poin utama", "penutup yang terasa selesai"]
+  hashtags: []

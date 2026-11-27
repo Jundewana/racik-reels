@@ -1,0 +1,267 @@
+<mxfile host="app.diagrams.net" agent="Racik" version="24.0.0">
+  <diagram id="arsitektur-racik" name="Arsitektur Racik">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1560" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== Judul ===== -->
+        <mxCell id="title" value="&lt;b&gt;Arsitektur Racik (AutoReels)&lt;/b&gt; — Contoh Brand&lt;br&gt;&lt;font style=&quot;font-size:12px&quot; color=&quot;#615A78&quot;&gt;Garis putus-putus = opsional / rencana. LLM memutuskan (EDL JSON), FFmpeg mengeksekusi. Keputusan &amp;amp; risiko: docs/arsitektur/README.md dan adr/&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;fontSize=20;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="1200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Lapisan (latar) ===== -->
+        <mxCell id="lane_ui" value="Antarmuka pengguna" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#F7F6FB;strokeColor=#D6D3E0;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;fontStyle=1;fontColor=#615A78;" vertex="1" parent="1">
+          <mxGeometry x="20" y="70" width="1520" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_be" value="Backend lokal (127.0.0.1)" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#F7F6FB;strokeColor=#D6D3E0;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;fontStyle=1;fontColor=#615A78;" vertex="1" parent="1">
+          <mxGeometry x="20" y="220" width="1520" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_pipe" value="pipeline.py — edit otomatis" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#EFECF8;strokeColor=#2B176E;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;fontStyle=1;fontColor=#2B176E;" vertex="1" parent="1">
+          <mxGeometry x="20" y="360" width="1520" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_ext" value="Layanan &amp; alat" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#E6D48A;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;fontStyle=1;fontColor=#8A6A00;" vertex="1" parent="1">
+          <mxGeometry x="20" y="580" width="1520" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_data" value="Data &amp; konfigurasi (file lokal)" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#F7F6FB;strokeColor=#D6D3E0;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;fontStyle=1;fontColor=#615A78;" vertex="1" parent="1">
+          <mxGeometry x="20" y="730" width="1520" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_pub" value="Tahap 6 (rencana)" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#8A84A3;dashed=1;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;fontStyle=1;fontColor=#8A84A3;" vertex="1" parent="1">
+          <mxGeometry x="20" y="890" width="1520" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Antarmuka ===== -->
+        <mxCell id="web" value="&lt;b&gt;Racik Studio (web)&lt;/b&gt;&lt;br&gt;React + Vite + Tailwind&lt;br&gt;frontend/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8E4F6;strokeColor=#2B176E;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="60" y="110" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="hp" value="&lt;b&gt;Browser HP&lt;/b&gt;&lt;br&gt;Wi-Fi yang sama + PIN (--hp)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8E4F6;strokeColor=#2B176E;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="350" y="110" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="menu" value="&lt;b&gt;Menu terminal&lt;/b&gt;&lt;br&gt;main.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8E4F6;strokeColor=#2B176E;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="960" y="110" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="cli" value="&lt;b&gt;CLI autoreels&lt;/b&gt;&lt;br&gt;cli.py (typer): run, import, render, status" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8E4F6;strokeColor=#2B176E;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="110" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Backend ===== -->
+        <mxCell id="srv" value="&lt;b&gt;server.py (FastAPI) + JobRunner&lt;/b&gt;&lt;br&gt;REST API: pilih klip &amp; mesin AI (api/local), preview footage;&lt;br&gt;antrean di memori 1 worker, progress.json + log.txt per job" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="60" y="255" width="540" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="imp" value="&lt;b&gt;importer.py&lt;/b&gt;&lt;br&gt;Impor video jadi (video-use): normalisasi,&lt;br&gt;logo, CTA, caption AI, checklist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="660" y="255" width="380" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rr" value="&lt;b&gt;Render ulang&lt;/b&gt; (lewat antrean JobRunner)&lt;br&gt;dari edl.json (edit teks / voice over),&lt;br&gt;tanpa memanggil Director" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="255" width="400" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Pipeline ===== -->
+        <mxCell id="s1" value="&lt;b&gt;[1] Ingest&lt;/b&gt;&lt;br&gt;ingest.py&lt;br&gt;proxy 480p, metadata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;strokeWidth=2;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="45" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="&lt;b&gt;[2] Analyze&lt;/b&gt;&lt;br&gt;analyze/*&lt;br&gt;adegan, kualitas, subjek, beat musik" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;strokeWidth=2;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="230" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="&lt;b&gt;[3] Describe&lt;/b&gt;&lt;br&gt;describe.py&lt;br&gt;vision LLM per adegan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;strokeWidth=2;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="415" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" value="&lt;b&gt;[4] Director&lt;/b&gt;&lt;br&gt;director.py&lt;br&gt;susun EDL (JSON)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;strokeWidth=2;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="600" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" value="&lt;b&gt;[5] Validate&lt;/b&gt;&lt;br&gt;validate.py&lt;br&gt;aturan keras + perbaikan otomatis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;strokeWidth=2;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="785" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" value="&lt;b&gt;[6] Critic&lt;/b&gt;&lt;br&gt;critic.py&lt;br&gt;(Tahap 4, rencana)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8A84A3;dashed=1;fontColor=#615A78;" vertex="1" parent="1">
+          <mxGeometry x="970" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" value="&lt;b&gt;[7] Render&lt;/b&gt;&lt;br&gt;render/*&lt;br&gt;potong, reframe 9:16, teks .ass, logo, musik, voice over" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2B176E;strokeWidth=2;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="1155" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" value="&lt;b&gt;Checklist&lt;/b&gt;&lt;br&gt;checklist.py&lt;br&gt;Siap Unggah / Perlu tinjau" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F4EA;strokeColor=#00843A;strokeWidth=2;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="440" width="155" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Layanan & alat ===== -->
+        <mxCell id="llm" value="&lt;b&gt;LLM API via litellm&lt;/b&gt;&lt;br&gt;Gemini (vision), Groq gpt-oss-120b (teks)&lt;br&gt;cache + catat biaya (llm.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4CC;strokeColor=#B38900;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="45" y="615" width="270" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="oll" value="&lt;b&gt;Ollama lokal (opsional)&lt;/b&gt;&lt;br&gt;qwen3:4b (teks), qwen3-vl:4b-instruct (vision)&lt;br&gt;GPU RTX 4050, untuk uji coba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4CC;strokeColor=#B38900;dashed=1;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="345" y="615" width="270" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tts" value="&lt;b&gt;Gemini TTS&lt;/b&gt;&lt;br&gt;suara AI untuk voice over" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4CC;strokeColor=#B38900;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="645" y="615" width="270" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cv" value="&lt;b&gt;Pustaka CPU&lt;/b&gt;&lt;br&gt;PySceneDetect, OpenCV,&lt;br&gt;MediaPipe, librosa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4CC;strokeColor=#B38900;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="945" y="615" width="270" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ff" value="&lt;b&gt;FFmpeg + libass&lt;/b&gt;&lt;br&gt;potong, crop, teks, mix audio,&lt;br&gt;loudnorm −14 LUFS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4CC;strokeColor=#B38900;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="615" width="270" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Data ===== -->
+        <mxCell id="d1" value="&lt;b&gt;footage/&lt;/b&gt;&lt;br&gt;video mentah per pilar" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fillColor=#F2F1F6;strokeColor=#615A78;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="45" y="765" width="270" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="&lt;b&gt;work/&lt;/b&gt;&lt;br&gt;cache LLM, analisis, file antara render" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fillColor=#F2F1F6;strokeColor=#615A78;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="345" y="765" width="270" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="&lt;b&gt;config/ + prompts/ + trends/&lt;/b&gt;&lt;br&gt;brand, pilar, hook, style, brief tren" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fillColor=#F2F1F6;strokeColor=#615A78;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="645" y="765" width="270" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="&lt;b&gt;assets/&lt;/b&gt;&lt;br&gt;musik per mood, font, logo" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fillColor=#F2F1F6;strokeColor=#615A78;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="945" y="765" width="270" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="&lt;b&gt;output/&amp;lt;job&amp;gt;/&lt;/b&gt;&lt;br&gt;reel.mp4, cover.jpg, edl.json,&lt;br&gt;caption.txt, report.md" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fillColor=#E3F4EA;strokeColor=#00843A;fontColor=#1C1433;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="765" width="270" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Tahap 6 (rencana) ===== -->
+        <mxCell id="p1" value="&lt;b&gt;publish/&lt;/b&gt;&lt;br&gt;antrean, persetujuan manusia, jadwal (Task Scheduler)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8A84A3;dashed=1;fontColor=#615A78;" vertex="1" parent="1">
+          <mxGeometry x="945" y="920" width="270" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ig" value="&lt;b&gt;Instagram Graph API&lt;/b&gt;&lt;br&gt;resmi; akun decoy dulu, lalu produksi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8A84A3;dashed=1;fontColor=#615A78;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="920" width="270" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Panah: antarmuka & backend ===== -->
+        <mxCell id="e_web_srv" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=block;endFill=1;" edge="1" parent="1" source="web" target="srv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_hp_srv" value="LAN + PIN" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1" source="hp" target="srv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_menu_cli" value="memanggil" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1" source="menu" target="cli">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_cli_pipe" value="autoreels run / import / render&lt;br&gt;(di luar antrean server, risiko R3)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=block;endFill=1;fontSize=11;exitX=1;exitY=0.5;entryX=1;entryY=0.12;" edge="1" parent="1" source="cli" target="lane_pipe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_srv_s1" value="POST /api/jobs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1" source="srv" target="s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_srv_imp" value="POST /api/import" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1" source="srv" target="imp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_imp_rr" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=none;dashed=1;" edge="1" parent="1" source="imp" target="rr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rr_s7" value="pakai edl.json" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1" source="rr" target="s7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Panah: alur pipeline ===== -->
+        <mxCell id="e_s1_s2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2B176E;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="s1" target="s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s2_s3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2B176E;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="s2" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s3_s4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2B176E;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="s3" target="s4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s4_s5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2B176E;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="s4" target="s5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s5_s4" value="error: revisi (maks 2x)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#D9261C;endArrow=block;endFill=1;fontSize=11;fontColor=#B81E15;exitX=0.5;exitY=0;entryX=0.5;entryY=0;" edge="1" parent="1" source="s5" target="s4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="862" y="405" />
+              <mxPoint x="677" y="405" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s5_s6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#8A84A3;dashed=1;endArrow=block;endFill=1;" edge="1" parent="1" source="s5" target="s6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s6_s7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#8A84A3;dashed=1;endArrow=block;endFill=1;" edge="1" parent="1" source="s6" target="s7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s5_s7" value="EDL valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2B176E;strokeWidth=2;endArrow=block;endFill=1;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" edge="1" parent="1" source="s5" target="s7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="862" y="548" />
+              <mxPoint x="1232" y="548" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s7_s8" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2B176E;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="s7" target="s8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Panah: layanan ===== -->
+        <mxCell id="e_s2_cv" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;endArrow=block;endFill=1;exitX=0.25;exitY=1;" edge="1" parent="1" source="s2" target="cv">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="269" y="570" />
+              <mxPoint x="1080" y="570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s3_llm" value="vision" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;endArrow=block;endFill=1;fontSize=11;exitX=0.25;exitY=1;" edge="1" parent="1" source="s3" target="llm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s4_llm" value="teks" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;endArrow=block;endFill=1;fontSize=11;exitX=0.25;exitY=1;" edge="1" parent="1" source="s4" target="llm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s3_oll" value="mesin local" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;dashed=1;endArrow=block;endFill=1;fontSize=11;exitX=0.75;exitY=1;" edge="1" parent="1" source="s3" target="oll">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s4_oll" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;dashed=1;endArrow=block;endFill=1;exitX=0.75;exitY=1;" edge="1" parent="1" source="s4" target="oll">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s7_tts" value="voice over AI" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;endArrow=block;endFill=1;fontSize=11;exitX=0.25;exitY=1;" edge="1" parent="1" source="s7" target="tts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s7_ff" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;endArrow=block;endFill=1;exitX=0.75;exitY=1;" edge="1" parent="1" source="s7" target="ff">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Panah: data ===== -->
+        <mxCell id="e_d1_s1" value="video mentah" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#615A78;endArrow=block;endFill=1;fontSize=11;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="d1" target="s1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="32" y="807" />
+              <mxPoint x="32" y="485" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s2_d2" value="cache analisis" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#615A78;dashed=1;endArrow=block;endFill=1;fontSize=11;exitX=0.75;exitY=1;" edge="1" parent="1" source="s2" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_imp_llm" value="caption" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B38900;dashed=1;endArrow=block;endFill=1;fontSize=11;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="imp" target="llm">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="290" />
+              <mxPoint x="630" y="345" />
+              <mxPoint x="28" y="345" />
+              <mxPoint x="28" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d1_srv" value="preview /media/footage" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#615A78;dashed=1;endArrow=block;endFill=1;fontSize=11;exitX=1;exitY=0.3;entryX=0.1;entryY=1;" edge="1" parent="1" source="d1" target="srv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_d3_s4" value="brand, hook, style, tren" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#615A78;dashed=1;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1" source="d3" target="s4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_d4_s7" value="musik, font, logo" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#615A78;dashed=1;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1" source="d4" target="s7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s8_d5" value="hasil job" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#00843A;strokeWidth=2;endArrow=block;endFill=1;fontSize=11;exitX=1;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="s8" target="d5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1530" y="485" />
+              <mxPoint x="1530" y="807" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_d5_p1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#8A84A3;dashed=1;endArrow=block;endFill=1;exitX=0.25;exitY=1;" edge="1" parent="1" source="d5" target="p1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_p1_ig" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#8A84A3;dashed=1;endArrow=block;endFill=1;" edge="1" parent="1" source="p1" target="ig">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

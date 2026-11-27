@@ -1,0 +1,42 @@
+# Pustaka pola hook (bahasa Indonesia) per pilar. Director memilih/menyesuaikan dari sini.
+# Aturan: MAKS 5 kata & 28 huruf agar teks hook tampil besar di layar.
+# [HARGA]/[N] diisi dari brand.yaml/instruksi — jangan dikarang; bila tidak ada, jangan pakai pola itu.
+# File ini bisa diubah lewat `python main.py` → menu Hook.
+
+rental:
+  - { type: visual_wow, text: "Keliling Garut pakai motor" }
+  - { type: visual_wow, text: "POV: weekend di Garut" }
+  - { type: pertanyaan, text: "Liburan ke Garut?" }
+  - { type: pertanyaan, text: "Bingung keliling Garut?" }
+  - { type: pertanyaan, text: "Nggak bawa motor ke Garut?" }
+  - { type: harga, text: "Sewa motor [HARGA]/hari" }
+  - { type: kontras, text: "Angkot 3 jam vs motor 1 jam" }
+  - { type: angka, text: "3 spot Garut wajib dimotorin" }
+  - { type: pertanyaan, text: "Turun di Stasiun Garut?" }
+  - { type: pertanyaan, text: "Stasiun Garut ke Papandayan?" }
+  - { type: kontras, text: "Jangan nekat ke Papandayan!" }
+
+konstruksi:
+  - { type: before_after, text: "Dari lahan kosong jadi…" }
+  - { type: before_after, text: "Sebelum vs sesudah" }
+  - { type: angka, text: "[N] hari dari nol" }
+  - { type: pertanyaan, text: "Gimana proses bangunnya?" }
+  - { type: kontras, text: "Awal vs akhir proyek" }
+
+profil:
+  - { type: pertanyaan, text: "Brand ngerjain ini juga?" }
+  - { type: angka, text: "Sejak 2017 di Garut" }
+  - { type: pertanyaan, text: "Siapa di balik layar?" }
+
+lowongan:
+  - { type: pertanyaan, text: "Cari kerja di Garut?" }
+  - { type: pertanyaan, text: "Mau kerja dekat rumah?" }
+  - { type: angka, text: "Kami buka [N] posisi!" }
+  - { type: kontras, text: "Kerja di sini beda" }
+
+umum:
+  - { type: pertanyaan, text: "Kamu pernah ngerasain ini?" }
+  - { type: pertanyaan, text: "Kenapa jarang yang tahu?" }
+  - { type: kontras, text: "Kebanyakan orang salah soal ini" }
+  - { type: angka, text: "1 kebiasaan yang bikin beda" }
+  - { type: visual_wow, text: "Tonton sampai habis" }

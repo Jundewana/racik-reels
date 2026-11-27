@@ -1,0 +1,82 @@
+# Identitas brand Contoh Brand.
+# Field bertanda [ISI] perlu dilengkapi pemilik proyek. JANGAN mengarang harga/klien.
+
+company_name: "Contoh Brand"
+short_name: "Brand"
+address: "[ISI] alamat usaha"
+
+instagram:
+  main: "@contohbrand"
+  rental: "@contohrental"   # akun unit Rental Motor (afiliasi Brand) — dipakai di video pilar rental
+
+whatsapp:
+  display: "(000) 0000000"
+  international: "+620000000000"
+
+logo:
+  file: "assets/logo/logo_brand.jpg"
+  default_position: top_right
+  scale: 0.12           # lebar logo relatif terhadap lebar video
+  per_pillar:           # logo khusus per pilar (unit usaha afiliasi); pilar lain memakai `file`
+    rental: "assets/logo/logo_rental.jpg"   # Rental Motor (afiliasi Brand) — ganti dgn versi resolusi besar bila ada
+
+# Unit usaha sewa motor: "Rental Motor", afiliasi Contoh Brand.
+# Hanya layanan yang DIKONFIRMASI pemilik (2026-11-19) — AI boleh menyebutnya di video & caption.
+rental_services:
+  - "Motor bisa diantar ke Stasiun Garut"
+  - "Bonus 2 helm + jas hujan"
+  - "Unit Beat, Scoopy, dan Vario"
+
+# Kata yang selalu ditekankan di subtitle (warna + pop), selain angka/harga/nama tempat yang terdeteksi otomatis.
+# Nama tempat satu kata di transcribe_vocab otomatis ikut ditekankan.
+emphasis_words: []
+
+# Kosakata untuk transkripsi ucapan (Tahap 3): nama tempat, merek, istilah yang sering salah dengar.
+# Ditambah otomatis dengan layanan rental & keyword pilar. Tambahkan sendiri bila ada kata yang sering keliru.
+transcribe_vocab:
+  - "Rental Motor nomor satu"
+  - "Garut"
+  - "Cipanas"
+  - "Papandayan"
+  - "Stasiun Garut"
+  - "helm"
+  - "jas hujan"
+  - "explore"
+  - "booking"
+  - "WhatsApp"
+  - "gak ribet"
+  - "Darajat"
+  - "Sayang Heulang"
+  - "matic"
+  - "penginapan"
+  - "harian atau mingguan"
+  - "renovasi"
+  - "kanopi"
+  - "pengecoran"
+  - "RAB"
+  - "survei"
+
+colors:                 # diambil dari logo; ganti bila ada panduan warna resmi
+  green: "#00953F"
+  purple: "#2B176E"
+  red: "#D9261C"
+  text_dark: "#0B0B0C"
+
+fonts:                  # path relatif terhadap assets/fonts/
+  heading: "Montserrat/Montserrat-ExtraBold.ttf"   # ganti bila font brand berbeda
+  body: "Montserrat/Montserrat-SemiBold.ttf"
+  # Tersedia juga: Anton, Bebas_Neue, Barlow_Condensed, Inter, Plus_Jakarta_Sans,
+  # ClashDisplay (.otf), Satoshi (.otf). Pakai file statis, bukan *-Variable*.
+
+language_style: "Bahasa Indonesia santai-sopan"
+allow_sundanese_light: true   # sisipan bahasa Sunda ringan untuk pilar rental
+
+pricing:
+  rental_per_day: "[HARGA]"   # [ISI] harga sewa — jangan dikarang
+
+default_cta:
+  rental: "Booking sekarang via WhatsApp (000) 0000000!"
+  konstruksi: "Konsultasikan proyek Anda — hubungi kami via WhatsApp."
+  profil: "Kenali Brand lebih dekat — follow @contohbrand."
+  lowongan: "Kirim lamaranmu sekarang! Info lengkap via WhatsApp."
+  umum: "Ikuti akun kami untuk konten lainnya."   # hanya dipakai bila konten umum dipaksa 'promosi'

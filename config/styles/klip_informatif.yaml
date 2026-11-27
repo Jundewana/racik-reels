@@ -1,0 +1,19 @@
+# Bersih & fokus isi untuk konten umum (podcast, kuliah, edukasi): potongan tenang, tanpa efek ramai, musik pelan.
+name: klip_informatif
+description: "Bersih & fokus isi untuk konten umum: potongan tenang, tanpa efek ramai, musik santai"
+cut_pace_sec: [1.5, 3.0]
+transitions: [cut, fade]
+text_style: rapi_box
+font: Montserrat/Montserrat-ExtraBold.ttf
+colors: { text: "#FFFFFF", box: "#000000CC", highlight: "#7FD4FF", emphasis: "#FFC400" }
+zoom_punch_on_emphasis: false
+color_grade: clean           # punchy | warm | clean | none (render/cut.py GRADES)
+color_match: 0.6             # seragamkan warna antar klip sebelum look (0 = mati; render/color.py)
+sfx_db: null                  # efek suara transisi (whoosh/thump/pop), dB; null = tanpa (render/sfx.py)
+stabilize: true             # adegan goyang distabilkan (vidstab); false = mati
+music_mood_default: santai
+original_audio_db: -30
+speed_range: [1.0, 1.0]
+
+# Teks hook di belakang orang (render/behind.py); otomatis hook biasa bila tidak ada posisi yang pas
+hook_behind: true
